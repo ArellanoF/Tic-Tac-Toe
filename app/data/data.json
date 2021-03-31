@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "username": "Clim",
+        "image": "https://robohash.org/sapientedistinctiovel.png?size=50x50&set=set1"
+    },
+    {
+        "id": 2,
+        "username": "Simeon",
+        "image": "https://robohash.org/temporeutconsequatur.png?size=50x50&set=set1"
+    },
+    {
+        "id": 3,
+        "username": "Melamie",
+        "image": "https://robohash.org/consequunturquibusdamipsam.png?size=50x50&set=set1"
+    },
+    {
+        "id": 4,
+        "username": "Meier",
+        "image": "https://robohash.org/facilislaborevoluptate.png?size=50x50&set=set1"
+    }
+]
