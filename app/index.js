@@ -14,8 +14,8 @@ const usersTemplate = fs.readFileSync(`${__dirname}/templates/users.html`, 'utf8
 
 
 // Data
-const data = fs.readFileSync(`${__dirname}/data/data.json`, 'utf8');
-const dataParse = JSON.parse(data);
+const data = fs.readFileSync(`${__dirname}/data/users.json`, 'utf8');
+let dataParse = JSON.parse(data);
 
 // Create the server
 const server = http.createServer((req, res) => {
@@ -27,6 +27,17 @@ const server = http.createServer((req, res) => {
             if(error){
                 console.log('Something was wrong!')
             }else{
+                function finished (err){
+                    if(err){
+                        console.log('error register!');
+                    }                    
+                }
+               let prueba = {id: 5, username: "test", image: ""};
+               dataParse.push(prueba);
+               const parse = JSON.stringify(dataParse, null, 2);
+              
+                fs.writeFile(`${__dirname}/data/users.json`, parse, finished);
+              
                 res.end(data);
             }
           
@@ -42,7 +53,7 @@ const server = http.createServer((req, res) => {
           
         })
     }else if(path === '/game'){
-        const usersListTemplate = dataParse.map(user => userReplace(user, usersTemplate)).join('');
+        const usersListTemplate = usersParse.map(user => userReplace(user, usersTemplate)).join('');
         const index = fs.readFile(`${__dirname}/templates/game.html`, 'utf8', (error, data)=> {
             if(error){
                 console.log('Something was wrong!')
