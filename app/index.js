@@ -1,6 +1,9 @@
 const http = require('http');
 const fs = require('fs');
 const url = require('url');
+const util = require('util');
+const { StringDecoder } = require('string_decoder');
+const formidable = require('formidable');
 
 //Template
 const userReplace = (user, usersTemplate) => {
@@ -10,7 +13,8 @@ const userReplace = (user, usersTemplate) => {
 
     return output;
 };
-const users = require('./data/users.json');
+
+
 const usersTemplate = fs.readFileSync(`${__dirname}/templates/users.html`, 'utf8');
 
 
@@ -24,17 +28,37 @@ const server = http.createServer((req, res) => {
     const path = req.url;
     // Routing
     if(path === '/login'){
-       
+        if(req.method === 'POST'){
+
+            let form = new formidable.IncomingForm();
+            form.parse(req, function(err, fields, files){
+                if(err){
+                    console.log(err);
+                    return;
+                }
+                userLogged = fields.user;
+                passLogged = fields.password;
+                avatarLogged = fields.avatar;
+               
+         
+                dataParse.forEach(user => {
+                    if(userLogged === user.username.toLowerCase() && passLogged === user.password){
+                        // Falta insertar la imagen que ha seleccionado, se pasa la url correctamente
+                         res.writeHead(202);
+                   }else{
+                        res.writeHead(401);
+                    }
+               
+                })
+               
+        
+            })
+      
+        }
         const index = fs.readFile(`${__dirname}/templates/login.html`, 'utf8', (error, data)=> {
             if(error){
                 console.log('Something was wrong!')
             }else{
-                        
-                /*let user = {id: 5, username: "test", image: ""};
-                dataParse.push(user);
-                const usersParse = JSON.stringify(dataParse, null, 2);
-                
-                fs.writeFile(`${__dirname}/data/users.json`, usersParse, finished);*/
                 res.end(data);
             }
             
@@ -52,10 +76,12 @@ const server = http.createServer((req, res) => {
             }
           
         })
-    }else{
+    }
+   
+    /*else{
         res.writeHead(404);
         res.end('Page not found!')
-    }
+    }*/
 
 })
 

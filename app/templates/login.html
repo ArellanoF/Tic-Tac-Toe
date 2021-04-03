@@ -21,7 +21,7 @@
         <div class="d-flex justify-content-center mt-4">
             <div class="row">
                 <div class="col-sm-12">
-                    <form action="/game" method="POST">
+                    <form action="/" method="POST" id="loginForm">
                         <div class="form-group">
                             <label for="username">Username</label>
                             <input type="text" class="form-control" id="username" aria-describedby="userHelp"
@@ -35,11 +35,24 @@
                             <input type="password" class="form-control" id="password" placeholder="Password" required>
                         </div>
                         <div class="form-group">
-                            <label for="repeatPassword">Repeat password</label>
-                            <input type="password" class="form-control" id="repeatPassword"
-                                placeholder="Repeat password" required>
+                            <h5>Please select an avatar: </h5>
+                            <label class="avatars">
+                                <input type="radio" name="avatar" />
+                                <img src="https://robohash.org/V4T.png?size=50x50&set=set1" alt="" id="avatar" />
+                            </label>
+                            <label class="avatars">
+                                <input type="radio" name="avatar" />
+                                <img src="https://robohash.org/K57.png?size=50x50&set=set1" alt="" id="avatar" />
+                            </label>
                         </div>
 
+                        <!-- 
+                            <div class="form-group">
+                                                        <label for="repeatPassword">Repeat password</label>
+                                                        <input type="password" class="form-control" id="repeatPassword"
+                                                            placeholder="Repeat password" required>
+                                                    </div>
+                            -->
                         <button id="submit" type="submit" class="btn btn-primary">Register</button>
                     </form>
 
@@ -52,6 +65,7 @@
     </main>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
@@ -64,7 +78,7 @@
     <script>
         let username = document.querySelector('#username');
         let password = document.querySelector('#password');
-        let repeatPassword = document.querySelector('#repeatPassword');
+        let avatar = document.querySelector('#avatar');
         let submit = document.querySelector('#submit');
 
         username.addEventListener('change', (event) => {
@@ -75,29 +89,40 @@
         })
 
 
-        submit.addEventListener('click', (event) => {
-            e.preventDefault();
+        submit.addEventListener('click', async (event) => {
+            event.preventDefault();
+            var registered = false;
             if (username.value !== null && password.value !== null) {
-                if (password.value === repeatPassword.value) {
-                    let user = { user: username.value, password: password.value };
-                    await fetch('/login', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            user
-                        })
-                    });
-                    alert("Registered!");
+                fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({
+                        user: username.value,
+                        password: password.value,
+                        avatar: avatar.src
+
+                    })
+                }).then(await function (res) {
+                    if (res.status === 202) {
+                        console.log('Registered');
+                        registered = true;
+                        if (registered) {
+                            window.location.replace('http://localhost:3001/game');
+                        };
+
+                    }
+                });
 
 
-                } else {
-                    alert("The passwords do not are equal!");
-                }
+            } else {
+                alert("Error on Login, please check your credentials");
             }
 
         })
+
 
     </script>
 </body>
