@@ -10,6 +10,7 @@ const userReplace = (user, usersTemplate) => {
 
     return output;
 };
+const users = require('./data/users.json');
 const usersTemplate = fs.readFileSync(`${__dirname}/templates/users.html`, 'utf8');
 
 
@@ -22,38 +23,26 @@ const server = http.createServer((req, res) => {
     // Path
     const path = req.url;
     // Routing
-    if(path === '/register'){
-        const index = fs.readFile(`${__dirname}/templates/register.html`, 'utf8', (error, data)=> {
-            if(error){
-                console.log('Something was wrong!')
-            }else{
-                function finished (err){
-                    if(err){
-                        console.log('error register!');
-                    }                    
-                }
-               let prueba = {id: 5, username: "test", image: ""};
-               dataParse.push(prueba);
-               const parse = JSON.stringify(dataParse, null, 2);
-              
-                fs.writeFile(`${__dirname}/data/users.json`, parse, finished);
-              
-                res.end(data);
-            }
-          
-        })
+    if(path === '/login'){
        
-    }else if(path === '/login'){
         const index = fs.readFile(`${__dirname}/templates/login.html`, 'utf8', (error, data)=> {
             if(error){
                 console.log('Something was wrong!')
             }else{
+                        
+                /*let user = {id: 5, username: "test", image: ""};
+                dataParse.push(user);
+                const usersParse = JSON.stringify(dataParse, null, 2);
+                
+                fs.writeFile(`${__dirname}/data/users.json`, usersParse, finished);*/
                 res.end(data);
             }
-          
+            
         })
+       
+
     }else if(path === '/game'){
-        const usersListTemplate = usersParse.map(user => userReplace(user, usersTemplate)).join('');
+        const usersListTemplate = dataParse.map(user => userReplace(user, usersTemplate)).join('');
         const index = fs.readFile(`${__dirname}/templates/game.html`, 'utf8', (error, data)=> {
             if(error){
                 console.log('Something was wrong!')

@@ -9,7 +9,17 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        .container {
+            margin-top: 40px;
+        }
 
+        .drop {
+            width: 150px;
+            height: 150px;
+            border: 1px solid black;
+        }
+    </style>
     <title>Javascripters</title>
 </head>
 
@@ -20,11 +30,14 @@
     <main>
         <div class="container">
             <div class="row">
-                <div class="col-sm-10">
+                <div class="col-sm-10 bg-dark text-light">
                     <h1>Game Zone</h1>
+                    <div id="div1" class="bg-primary text-white drop" ondrop="drop(event)"
+                        ondragover="allowDrop(event)">
+                    </div>
                 </div>
                 <div class="col-sm-2">
-                    <h2>Users</h2>
+                    <h1>Users</h1>
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
@@ -35,6 +48,8 @@
                         </thead>
                         <tbody>
                             {%USERLIST%}
+                            <img id="drag1" src="https://robohash.org/facilislaborevoluptate.png?size=50x50&set=set1"
+                                draggable="true" ondragstart="drag(event)">
                         </tbody>
                     </table>
 
@@ -56,6 +71,21 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+    <script>
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            ev.target.appendChild(document.getElementById(data));
+        }
+    </script>
 </body>
 
 </html>
