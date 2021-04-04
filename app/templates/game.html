@@ -20,16 +20,40 @@
             height: 150px;
             border: 1px solid black;
         }
+        .header{
+            background-color: grey;
+            border-radius: 5px;
+        }
+        .main{
+            border: 1px solid black;
+        }
     </style>
     <title>Javascripters</title>
 </head>
 
 <body>
     <nav class="navbar navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Game</a>
+        <a class="navbar-brand" href="#">Javascripters Game</a>
         <button type="button" onclick="{logout()}" class="btn btn-light">Logout</button>
     </nav>
     <main>
+        <div class="container">
+            <div class="row">
+                <div class="container-fluid header">
+                    <h2>Titulo</h2>
+                </div>
+              
+            </div>
+            <div class="row">
+                <div class="col main">
+                    Columna 1
+                </div>
+                <div class="col main">
+                    Columna 2
+                </div>
+            </div>
+
+        </div>
         <div class="container">
             <div class="row">
                 <div class="col-sm-8 bg-dark text-light">
