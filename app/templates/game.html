@@ -51,17 +51,20 @@
             border-radius: 5px;
             margin: 0px 30px;
             width: 30em;
-            height: 6.5em;
+            height: 9em;
         }
         .avatar{
             display: flex;
             justify-content: center;
             align-items: center;
             border-radius: 5px;
+            height: 9em;
             margin: 5px 25px;
             font-size: 14px;
             background-color: grey;
+            cursor: move;
         }
+              
     </style>
     <title>Javascripters</title>
 </head>
@@ -88,12 +91,13 @@
                         <div class="container userInfo">
                             <div class="col-3">
                                 <span>Welcome: <h2 id="username" value=""></h2></span>
+                                <span>Room: <h3 id="gameRoom" value=""></h3></span>
                             </div>
                             <div class="col-8 avatar">
                                
-                                <div id="div1" class="drop" ondrop="drop(event)"
+                                <div id="home" class="drop" ondrop="drop(event)"
                                     ondragover="allowDrop(event)">
-                                    <img src="" id="avatar" draggable="true" ondragstart="drag(event)">
+                                    <img src="" id="avatarImage" class="draggable" draggable="true" ondragstart="drag(event)">
                                 </div>
                                 <span>Please drag to the Game room</span>
                             </div>
@@ -101,32 +105,41 @@
                         
                         </div>
                     </div>
+                    <div class="row"><h3>Game rooms:</h3></div>
+                    <div class="row" id="invalid"><div
+                        class="alert alert-danger mt-3"
+                        role="alert"
+                        id="invalid"
+                    >
+                       Sorry this Room are full, please try another one!
+                    </div></div>
                     <div class="row">
                         <div class="col bg-dark text-light">
-                            <h3>Game room: <h2 id="gameRoom" value="">
-                            </h3>
-                            <div id="div1" class="bg-primary text-white drop" ondrop="drop(event)"
+                            <!-- <h3>Game room: <h2 id="gameRoom" value=""></h3>-->
+                            
+                            <h3>Water room: </h2>
+                            <div id="water" class="bg-primary text-white drop droppable" ondrop="drop(event)"
                                 ondragover="allowDrop(event)">
                             </div>
                         </div>
                         <div class="col bg-dark text-light">
                             <h3>Fire room: </h2>
                             </h3>
-                            <div id="div1" class="bg-primary text-white drop" ondrop="drop(event)"
+                            <div id="fire" class="bg-primary text-white drop droppable" ondrop="drop(event)"
                                 ondragover="allowDrop(event)">
                             </div>
                         </div>
                         <div class="col bg-dark text-light">
                             <h3>Wind room: </h2>
                             </h3>
-                            <div id="div1" class="bg-primary text-white drop" ondrop="drop(event)"
+                            <div id="wind" class="bg-primary text-white drop" ondrop="drop(event)"
                                 ondragover="allowDrop(event)">
                             </div>
                         </div>
                         <div class="col bg-dark text-light">
-                            <h3>Wind room: </h2>
+                            <h3>Earth room: </h2>
                             </h3>
-                            <div id="div1" class="bg-primary text-white drop" ondrop="drop(event)"
+                            <div id="earth" class="bg-primary text-white drop" ondrop="drop(event)"
                                 ondragover="allowDrop(event)">
                             </div>
                         </div>
@@ -137,33 +150,7 @@
         </div>
         <div class="container">
            
-             
-              
-                    
-               
-
-                        <!-- 
-                            <img id="drag1" src="https://robohash.org/facilislaborevoluptate.png?size=50x50&set=set1"
-                        draggable="true" ondragstart="drag(event)">
-<table class="table">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th scope="col">Id</th>
-                                <th scope="col">Username</th>
-                                <th scope="col">Avatar</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {%USERLIST%}
-                            <img id="drag1" src="https://robohash.org/facilislaborevoluptate.png?size=50x50&set=set1"
-                                draggable="true" ondragstart="drag(event)">
-                        </tbody>
-                    </table>
-                    -->
-
-            
-
-      
+     
         </div>
     </main>
 
@@ -180,15 +167,19 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
     <script>
+        // Get info from the localStorage
         const username = localStorage.getItem('user');
         document.getElementById("username").innerHTML = username;
 
         const avatar = localStorage.getItem('avatar');
-        document.getElementById("avatar").src = avatar;
+        document.getElementById("avatarImage").src = avatar;
 
         const gameRoom = localStorage.getItem('gameRoom');
         document.getElementById('gameRoom').innerHTML = gameRoom;
+        
+        document.getElementById("invalid").style.display = "none";
 
+        // Drag and Drop
         function allowDrop(ev) {
             ev.preventDefault();
         }
@@ -197,11 +188,56 @@
             ev.dataTransfer.setData("text", ev.target.id);
         }
 
-        function drop(ev) {
+       async function drop(ev) {
             ev.preventDefault();
+            const room = ev.path[0].id;
             var data = ev.dataTransfer.getData("text");
-            ev.target.appendChild(document.getElementById(data));
+
+            if(room !== "home"){
+                fetch("/game", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        credentials: "same-origin",
+                        body: JSON.stringify({
+                            room: room,
+                        }),
+                    }).then( await function (res){
+                        console.log(res.status);
+                        if (res.status === 202){
+                            ev.target.appendChild(document.getElementById(data));
+                        }
+                        if(res.status === 401){
+                            document.getElementById(
+                                    "invalid"
+                                ).style.display = "inherit"
+                               
+                        }
+                    });
+            }else{
+                ev.target.appendChild(document.getElementById(data));
+            }
+         
+           
+            
         }
+      
+    
+        // Manage D&D
+        /*
+        const draggableElements = document.querySelectorAll('.draggable');
+        const droppableElements = document.querySelectorAll('.droppable');
+        
+        draggableElements.forEach(element => {
+            element.addEventListener("dragstart", dragStart);
+        })
+        droppableElements.forEach(element => {
+            element.addEventListener("dragover", dragOver);
+            element.addEventListener("drop", drop);
+        })*/
+
+        // Logout session function
         function logout() {
             localStorage.clear();
             window.location.replace('http://localhost:3001/login');

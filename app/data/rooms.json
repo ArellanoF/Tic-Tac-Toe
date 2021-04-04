@@ -1,0 +1,18 @@
+[
+  {
+    "room": "water",
+    "gamers": 5
+  },
+  {
+    "room": "fire",
+    "gamers": 5
+  },
+  {
+    "room": "wind",
+    "gamers": 1
+  },
+  {
+    "room": "earth",
+    "gamers": 1
+  }
+]
