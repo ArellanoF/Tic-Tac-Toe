@@ -16,16 +16,51 @@
         }
 
         .drop {
-            width: 150px;
-            height: 150px;
-            border: 1px solid black;
+            display: flex;
+            justify-content: center;
+        border: 1px solid black;
+        border-radius: 5px;
+            width: 9em;
+            height: 5.5em;
+            margin: 5px;
+         
         }
         .header{
+           
             background-color: grey;
             border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .game-zone{
+            border: none;
+            background-color: #cdd1cb;
+            border-radius: 5px;
+            height: 30em;
+            margin-right: 5px;
         }
         .main{
+         
             border: 1px solid black;
+        }
+        .userInfo{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            background-color: #cdd1cb;
+            border-radius: 5px;
+            margin: 0px 30px;
+            width: 30em;
+            height: 6.5em;
+        }
+        .avatar{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            margin: 5px 25px;
+            font-size: 14px;
+            background-color: grey;
         }
     </style>
     <title>Javascripters</title>
@@ -39,38 +74,73 @@
     <main>
         <div class="container">
             <div class="row">
-                <div class="container-fluid header">
-                    <h2>Titulo</h2>
+                <div class="container-fluid text-center header">
+                    <h2>Welcome to our game! Enjoy!</h2>
                 </div>
               
             </div>
             <div class="row">
-                <div class="col main">
-                    Columna 1
+                <div class="col-7 game-zone">
+                    Game zone
                 </div>
-                <div class="col main">
-                    Columna 2
+                <div class="col-4 main">
+                    <div class="row">
+                        <div class="container userInfo">
+                            <div class="col-3">
+                                <span>Welcome: <h2 id="username" value=""></h2></span>
+                            </div>
+                            <div class="col-8 avatar">
+                               
+                                <div id="div1" class="drop" ondrop="drop(event)"
+                                    ondragover="allowDrop(event)">
+                                    <img src="" id="avatar" draggable="true" ondragstart="drag(event)">
+                                </div>
+                                <span>Please drag to the Game room</span>
+                            </div>
+                            
+                        
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col bg-dark text-light">
+                            <h3>Game room: <h2 id="gameRoom" value="">
+                            </h3>
+                            <div id="div1" class="bg-primary text-white drop" ondrop="drop(event)"
+                                ondragover="allowDrop(event)">
+                            </div>
+                        </div>
+                        <div class="col bg-dark text-light">
+                            <h3>Fire room: </h2>
+                            </h3>
+                            <div id="div1" class="bg-primary text-white drop" ondrop="drop(event)"
+                                ondragover="allowDrop(event)">
+                            </div>
+                        </div>
+                        <div class="col bg-dark text-light">
+                            <h3>Wind room: </h2>
+                            </h3>
+                            <div id="div1" class="bg-primary text-white drop" ondrop="drop(event)"
+                                ondragover="allowDrop(event)">
+                            </div>
+                        </div>
+                        <div class="col bg-dark text-light">
+                            <h3>Wind room: </h2>
+                            </h3>
+                            <div id="div1" class="bg-primary text-white drop" ondrop="drop(event)"
+                                ondragover="allowDrop(event)">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
         </div>
         <div class="container">
-            <div class="row">
-                <div class="col-sm-8 bg-dark text-light">
-                    <h3>Game room: <h2 id="gameRoom" value="">
-                    </h3>
-                    <div id="div1" class="bg-primary text-white drop" ondrop="drop(event)"
-                        ondragover="allowDrop(event)">
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <span>Welcome: <h2 id="username" value=""></span>
-                    <h3>
-                        <div id="div1" class="bg-primary text-white drop" ondrop="drop(event)"
-                            ondragover="allowDrop(event)">
-                            <img src="" id="avatar" draggable="true" ondragstart="drag(event)">
-                        </div>
-
+           
+             
+              
+                    
+               
 
                         <!-- 
                             <img id="drag1" src="https://robohash.org/facilislaborevoluptate.png?size=50x50&set=set1"
@@ -91,9 +161,9 @@
                     </table>
                     -->
 
-                </div>
+            
 
-            </div>
+      
         </div>
     </main>
 
