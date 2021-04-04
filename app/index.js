@@ -36,14 +36,16 @@ const server = http.createServer((req, res) => {
                     console.log(err);
                     return;
                 }
+               
                 userLogged = fields.user;
                 passLogged = fields.password;
-                                 
+                         
                 dataParse.forEach(user => {
-                    if(userLogged === user.username.toLowerCase() && passLogged === user.password){
-                                               
+                    if(userLogged === user.username && passLogged === user.password){     
+                                                    
                         res.writeHead(202);
-                   }else{
+                   }
+                   if(passLogged !== user.password){
                         res.writeHead(401);
                     }
                
