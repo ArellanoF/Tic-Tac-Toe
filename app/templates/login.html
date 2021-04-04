@@ -35,14 +35,45 @@
                             <input type="password" class="form-control" id="password" placeholder="Password" required>
                         </div>
                         <div class="form-group">
+                            <label for="gameRoom">Select Game Room</label>
+                            <select id="gameRoom" class="form-select form-select-lg mb-3"
+                                aria-label=".form-select-lg example">
+                                <option selected>Open this select menu</option>
+                                <option value="Water Room">Water Room</option>
+                                <option value="Fire Room">Fire Room</option>
+                                <option value="Earth Room">Earth Room</option>
+                                <option value="Wind Room">Wind Room</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="form-group">
                             <h5>Please select an avatar: </h5>
                             <label class="avatars">
-                                <input type="radio" name="avatar" />
-                                <img src="https://robohash.org/V4T.png?size=50x50&set=set1" alt="" id="avatar" />
+
+                                <button type="button" id="avatar1"> <img
+                                        src="https://robohash.org/V4T.png?size=50x50&set=set1" alt=""
+                                        id="avatarSRC" /></button>
+
                             </label>
                             <label class="avatars">
-                                <input type="radio" name="avatar" />
-                                <img src="https://robohash.org/K57.png?size=50x50&set=set1" alt="" id="avatar" />
+                                <button type="button" id="avatar2"> <img
+                                        src="https://robohash.org/K57.png?size=50x50&set=set1" alt=""
+                                        id="avatar2" /></button>
+
+                            </label>
+                            <label class="avatars">
+                                <button type="button" id="avatar3"> <img
+                                        src="https://robohash.org/99U.png?size=50x50&set=set1" alt=""
+                                        id="avatar2" /></button>
+
+                            </label>
+                            <label class="avatars">
+                                <button type="button" id="avatar4"> <img
+                                        src="https://robohash.org/NHM.png?size=50x50&set=set1" alt=""
+                                        id="avatar2" /></button>
+
                             </label>
                         </div>
 
@@ -78,8 +109,31 @@
     <script>
         let username = document.querySelector('#username');
         let password = document.querySelector('#password');
-        let avatar = document.querySelector('#avatar');
+        let avatarSelected;
+        // let avatar = document.querySelector('#avatar2');
         let submit = document.querySelector('#submit');
+
+        let avatar1 = document.getElementById('avatar1');
+        avatar1.addEventListener('click', function () {
+            localStorage.setItem('avatar', avatar1.children[0].currentSrc);
+            avatarSelected = avatar1.children[0].currentSrc;
+        })
+        let avatar2 = document.getElementById('avatar2');
+        avatar2.addEventListener('click', function () {
+            localStorage.setItem('avatar', avatar2.children[0].currentSrc);
+            avatarSelected = avatar2.children[0].currentSrc;
+        })
+        let avatar3 = document.getElementById('avatar3');
+        avatar3.addEventListener('click', function () {
+            localStorage.setItem('avatar', avatar3.children[0].currentSrc);
+            avatarSelected = avatar3.children[0].currentSrc;
+        })
+        let avatar4 = document.getElementById('avatar4');
+        avatar4.addEventListener('click', function (event) {
+            localStorage.setItem('avatar', avatar4.children[0].currentSrc);
+            avatarSelected = avatar4.children[0].currentSrc;
+        })
+
 
         username.addEventListener('change', (event) => {
             localStorage.setItem('user', event.target.value);
@@ -102,7 +156,7 @@
                     body: JSON.stringify({
                         user: username.value,
                         password: password.value,
-                        avatar: avatar.src
+                        avatar: avatarSelected
 
                     })
                 }).then(await function (res) {
@@ -123,6 +177,10 @@
 
         })
 
+        const gameRoom = document.getElementById('gameRoom');
+        gameRoom.addEventListener('change', function () {
+            localStorage.setItem('gameRoom', this.value);
+        })
 
     </script>
 </body>

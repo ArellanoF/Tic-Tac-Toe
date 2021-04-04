@@ -38,18 +38,17 @@ const server = http.createServer((req, res) => {
                 }
                 userLogged = fields.user;
                 passLogged = fields.password;
-                avatarLogged = fields.avatar;
-               
-         
+                                 
                 dataParse.forEach(user => {
                     if(userLogged === user.username.toLowerCase() && passLogged === user.password){
-                        // Falta insertar la imagen que ha seleccionado, se pasa la url correctamente
-                         res.writeHead(202);
+                                               
+                        res.writeHead(202);
                    }else{
                         res.writeHead(401);
                     }
                
                 })
+              
                
         
             })

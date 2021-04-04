@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -26,19 +27,31 @@
 <body>
     <nav class="navbar navbar-dark bg-dark">
         <a class="navbar-brand" href="#">Game</a>
+        <button onclick="{logout()}">Logout</button>
     </nav>
     <main>
         <div class="container">
             <div class="row">
-                <div class="col-sm-10 bg-dark text-light">
-                    <h1>Game Zone</h1>
+                <div class="col-sm-8 bg-dark text-light">
+                    <h3>Game room: <h2 id="gameRoom" value="">
+                    </h3>
                     <div id="div1" class="bg-primary text-white drop" ondrop="drop(event)"
                         ondragover="allowDrop(event)">
                     </div>
                 </div>
-                <div class="col-sm-2">
-                    <h1>Users</h1>
-                    <table class="table">
+                <div class="col-sm-4">
+                    <span>Welcome: <h2 id="username" value=""></span>
+                    <h3>
+                        <div id="div1" class="bg-primary text-white drop" ondrop="drop(event)"
+                            ondragover="allowDrop(event)">
+                            <img src="" id="avatar" draggable="true" ondragstart="drag(event)">
+                        </div>
+
+
+                        <!-- 
+                            <img id="drag1" src="https://robohash.org/facilislaborevoluptate.png?size=50x50&set=set1"
+                        draggable="true" ondragstart="drag(event)">
+<table class="table">
                         <thead class="thead-dark">
                             <tr>
                                 <th scope="col">Id</th>
@@ -52,6 +65,7 @@
                                 draggable="true" ondragstart="drag(event)">
                         </tbody>
                     </table>
+                    -->
 
                 </div>
 
@@ -72,6 +86,15 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
     <script>
+        const username = localStorage.getItem('user');
+        document.getElementById("username").innerHTML = username;
+
+        const avatar = localStorage.getItem('avatar');
+        document.getElementById("avatar").src = avatar;
+
+        const gameRoom = localStorage.getItem('gameRoom');
+        document.getElementById('gameRoom').innerHTML = gameRoom;
+
         function allowDrop(ev) {
             ev.preventDefault();
         }
@@ -85,7 +108,12 @@
             var data = ev.dataTransfer.getData("text");
             ev.target.appendChild(document.getElementById(data));
         }
+        function logout() {
+            localStorage.clear();
+            window.location.replace('http://localhost:3001/login');
+        }
     </script>
+
 </body>
 
 </html>
