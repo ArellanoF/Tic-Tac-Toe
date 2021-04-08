@@ -10,6 +10,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+     
     <style>
         .container {
             margin-top: 40px;
@@ -36,12 +37,12 @@
             background-color: #cdd1cb;
             border-radius: 5px;
             height: 30em;
-            margin-right: 5px;
+            margin: 10px;
         }
         .main{
-         
-            border: 1px solid black;
+            margin: 10px 30px;
         }
+      
         .userInfo{
             display: flex;
             flex-direction: row;
@@ -49,8 +50,8 @@
             align-items: center;
             background-color: #cdd1cb;
             border-radius: 5px;
-            margin: 0px 30px;
-            width: 30em;
+            margin: 0px 0px;
+            width: 40em;
             height: 9em;
         }
         .avatar{
@@ -64,8 +65,29 @@
             background-color: grey;
             cursor: move;
         }
-              
+        .rooms{
+            margin-top: 10px;
+            width: 25.5em;
+        }
+        .invalid{          
+            width: 25em;
+        }
+        .room{
+            border-radius: 10px;
+            margin: 1px;
+            padding: 5px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+     
+        }
+        .gamezone{
+            padding: 5px;
+        }
+                      
     </style>
+   
     <title>Javascripters</title>
 </head>
 
@@ -84,7 +106,14 @@
             </div>
             <div class="row">
                 <div class="col-7 game-zone">
-                    Game zone
+                    <div class="row">
+                        <div class="container-fluid text-center header">
+                            <h2>Game Zone</h2>
+                                         </div>
+                    </div>
+                    <div class="row">
+                        
+                    </div>
                 </div>
                 <div class="col-4 main">
                     <div class="row">
@@ -105,41 +134,40 @@
                         
                         </div>
                     </div>
-                    <div class="row"><h3>Game rooms:</h3></div>
-                    <div class="row" id="invalid"><div
+                   
+                    <div class="row invalid" id="invalid"><div
                         class="alert alert-danger mt-3"
                         role="alert"
                         id="invalid"
                     >
                        Sorry this Room are full, please try another one!
                     </div></div>
-                    <div class="row">
-                        <div class="col bg-dark text-light">
-                            <!-- <h3>Game room: <h2 id="gameRoom" value=""></h3>-->
-                            
+                    <div class="row rooms">
+                        <div class="col bg-dark text-light room" >
+                                                 
                             <h3>Water room: </h2>
-                            <div id="water" class="bg-primary text-white drop droppable" ondrop="drop(event)"
+                            <div id="water" class="bg-primary text-white drop droppable gamezone" ondrop="drop(event)"
                                 ondragover="allowDrop(event)">
                             </div>
                         </div>
-                        <div class="col bg-dark text-light">
+                        <div class="col bg-dark text-light room">
                             <h3>Fire room: </h2>
                             </h3>
-                            <div id="fire" class="bg-primary text-white drop droppable" ondrop="drop(event)"
+                            <div id="fire" class="bg-danger text-white drop droppable gamezone" ondrop="drop(event)"
                                 ondragover="allowDrop(event)">
                             </div>
                         </div>
-                        <div class="col bg-dark text-light">
+                        <div class="col bg-dark text-light room">
                             <h3>Wind room: </h2>
                             </h3>
-                            <div id="wind" class="bg-primary text-white drop" ondrop="drop(event)"
+                            <div id="wind" class="bg-light text-white drop gamezone" ondrop="drop(event)"
                                 ondragover="allowDrop(event)">
                             </div>
                         </div>
-                        <div class="col bg-dark text-light">
+                        <div class="col bg-dark text-light room">
                             <h3>Earth room: </h2>
                             </h3>
-                            <div id="earth" class="bg-primary text-white drop" ondrop="drop(event)"
+                            <div id="earth" class="bg-success text-white drop gamezone" ondrop="drop(event)"
                                 ondragover="allowDrop(event)">
                             </div>
                         </div>
@@ -179,21 +207,25 @@
         
         document.getElementById("invalid").style.display = "none";
 
+        let roomFrom;
+        let roomFor;
+
         // Drag and Drop
         function allowDrop(ev) {
             ev.preventDefault();
         }
 
         function drag(ev) {
+            roomFrom = ev.path[1].id;
             ev.dataTransfer.setData("text", ev.target.id);
         }
 
        async function drop(ev) {
             ev.preventDefault();
-            const room = ev.path[0].id;
+            roomFor = ev.path[0].id;
             var data = ev.dataTransfer.getData("text");
 
-            if(room !== "home"){
+            if(roomFor !== "home"){
                 fetch("/game", {
                         method: "POST",
                         headers: {
@@ -201,7 +233,8 @@
                         },
                         credentials: "same-origin",
                         body: JSON.stringify({
-                            room: room,
+                            roomFrom: roomFrom,
+                            roomFor: roomFor,
                         }),
                     }).then( await function (res){
                         console.log(res.status);
@@ -212,6 +245,12 @@
                             document.getElementById(
                                     "invalid"
                                 ).style.display = "inherit"
+
+                            setTimeout(function(){
+                                document.getElementById(
+                                    "invalid"
+                                ).style.display = "none"
+                            }, 1500)
                                
                         }
                     });
@@ -223,26 +262,12 @@
             
         }
       
-    
-        // Manage D&D
-        /*
-        const draggableElements = document.querySelectorAll('.draggable');
-        const droppableElements = document.querySelectorAll('.droppable');
-        
-        draggableElements.forEach(element => {
-            element.addEventListener("dragstart", dragStart);
-        })
-        droppableElements.forEach(element => {
-            element.addEventListener("dragover", dragOver);
-            element.addEventListener("drop", drop);
-        })*/
-
-        // Logout session function
         function logout() {
             localStorage.clear();
             window.location.replace('http://localhost:3001/login');
         }
     </script>
+   
 
 </body>
 
