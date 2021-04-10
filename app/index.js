@@ -2,20 +2,29 @@ const http = require("http")
 const fs = require("fs")
 const url = require("url")
 const util = require("util")
-const { StringDecoder } = require("string_decoder")
 const formidable = require("formidable")
 const User = require("./models/user")
 const Game = require("./models/game")
 const Room = require("./models/room")
 
+// Users
+
+var user1 = new User()
+var user2 = new User()
+
+user1.setUser("hector", "1111")
+user2.setUser("paco", "1111")
+const users = [user1, user2]
+
+// Game
 let game = new Game()
-var user = new User()
+
+// Rooms
 var roomWind = new Room()
 var roomFire = new Room()
 var roomWater = new Room()
 var roomEarth = new Room()
 
-user.setUser("hector", "1111")
 roomWind.setRoom("wind", 0)
 roomFire.setRoom("fire", 2)
 roomWater.setRoom("water", 1)
@@ -28,8 +37,11 @@ const server = http.createServer((req, res) => {
     // Path
     const path = req.url
 
+    // Assets
+
     // Routing
-    if (req.url === "/login") {
+
+    if (path === "/login") {
         if (req.method === "POST") {
             let form = new formidable.IncomingForm()
             form.parse(req, function (err, fields, files) {
@@ -40,14 +52,19 @@ const server = http.createServer((req, res) => {
 
                 userLogged = fields.user
                 passLogged = fields.password
-                if (
-                    user.username === userLogged &&
-                    user.password === passLogged
-                ) {
-                    res.writeHead(202)
-                } else {
-                    res.writeHead(401)
-                }
+
+                users.forEach((user) => {
+                    if (
+                        user.username === userLogged &&
+                        user.password === passLogged
+                    ) {
+                        res.writeHead(202)
+                    }
+
+                    if (passLogged !== user.password) {
+                        res.writeHead(401)
+                    }
+                })
             })
         }
         const index = fs.readFile(
@@ -94,7 +111,12 @@ const server = http.createServer((req, res) => {
             })
         }
     } else if (path === "/endgame") {
-        res.end("End game")
+        if (req.method === "POST") {
+            res.writeHead(200)
+            res.end("End game")
+        } else {
+            res.status(400)
+        }
     } else {
         res.writeHead(404)
         res.end("Page not found!")
