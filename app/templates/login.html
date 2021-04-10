@@ -15,7 +15,6 @@
             integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
             crossorigin="anonymous"
         />
-
         <style>
             .bg {
                 background-color: #5f6661;
@@ -33,7 +32,16 @@
                 border-radius: 10px;
                 box-shadow: 0px 0px 10px 0px black;
             }
+            .avatars {
+                border-radius: 10px;
+                outline: none;
+            }
+            .avatars:focus {
+                border: 2px solid red;
+                outline: none;
+            }
         </style>
+
         <title>Javascripters</title>
     </head>
 
@@ -80,21 +88,21 @@
                                 </div>
                                 <select class="custom-select" id="gameRoom">
                                     <option selected>Choose...</option>
-                                    <option value="Water Room">
-                                        Water Room
-                                    </option>
-                                    <option value="Fire Room">Fire Room</option>
-                                    <option value="Earth Room">
-                                        Earth Room
-                                    </option>
-                                    <option value="Wind Room">Wind Room</option>
+                                    <option value="Water">Water</option>
+                                    <option value="Fire">Fire</option>
+                                    <option value="Earth">Earth</option>
+                                    <option value="Wind">Wind Room</option>
                                 </select>
                             </div>
 
                             <div class="form-group">
                                 <h5>Please select an avatar:</h5>
                                 <label class="avatars">
-                                    <button type="button" id="avatar1">
+                                    <button
+                                        type="button"
+                                        class="avatars"
+                                        id="avatar1"
+                                    >
                                         <img
                                             src="https://robohash.org/V4T.png?size=50x50&set=set1"
                                             alt=""
@@ -103,7 +111,11 @@
                                     </button>
                                 </label>
                                 <label class="avatars">
-                                    <button type="button" id="avatar2">
+                                    <button
+                                        type="button"
+                                        id="avatar2"
+                                        class="avatars"
+                                    >
                                         <img
                                             src="https://robohash.org/K57.png?size=50x50&set=set1"
                                             alt=""
@@ -112,7 +124,11 @@
                                     </button>
                                 </label>
                                 <label class="avatars">
-                                    <button type="button" id="avatar3">
+                                    <button
+                                        class="avatars"
+                                        type="button"
+                                        id="avatar3"
+                                    >
                                         <img
                                             src="https://robohash.org/99U.png?size=50x50&set=set1"
                                             alt=""
@@ -121,7 +137,11 @@
                                     </button>
                                 </label>
                                 <label class="avatars">
-                                    <button type="button" id="avatar4">
+                                    <button
+                                        type="button"
+                                        id="avatar4"
+                                        class="avatars"
+                                    >
                                         <img
                                             src="https://robohash.org/NHM.png?size=50x50&set=set1"
                                             alt=""
@@ -203,9 +223,6 @@
 
             username.addEventListener("change", (event) => {
                 localStorage.setItem("user", event.target.value)
-            })
-            password.addEventListener("change", (event) => {
-                localStorage.setItem("pass", event.target.value)
             })
 
             submit.addEventListener("click", async (event) => {
