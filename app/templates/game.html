@@ -277,6 +277,8 @@
         let roomFrom;
         let roomFor;
 
+       
+
         // Display Winner Div alert
         document.getElementById('winnerDiv').style.display ="none";
 
@@ -299,8 +301,7 @@
             roomFor = ev.path[0].id;
             var data = ev.dataTransfer.getData("text");
 
-            if(roomFor !== "home"){
-                fetch("/game", {
+             fetch("/game", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -312,6 +313,7 @@
                         }),
                     }).then( await function (res){
                         console.log(res.status);
+                                 
                         if (res.status === 202){
                             ev.target.appendChild(document.getElementById(data));
                             document.getElementById('playBtn').disabled = false;
@@ -328,16 +330,11 @@
                             }, 2500)
                                
                         }
+                        if(res.status === 205){
+                            ev.target.appendChild(document.getElementById(data));
+                            document.getElementById('playBtn').disabled = true;
+                        }
                     });
-            }else{
-                ev.target.appendChild(document.getElementById(data));
-                document.getElementById('playBtn').disabled = true;
-                document.getElementById('tresContainer').style.display = "none";
-                document.getElementById('waitingRoom').style.display= "inherit";
-            }
-         
-           
-            
         }
        // Logout function
         function logout() {
