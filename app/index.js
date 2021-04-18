@@ -1,22 +1,14 @@
+// Imports
 const http = require("http")
 const fs = require("fs")
 const url = require("url")
 const util = require("util")
 const formidable = require("formidable")
+
+// Classes
 const User = require("./models/user")
 const Game = require("./models/game")
 const Room = require("./models/room")
-
-// Users
-
-var user1 = new User()
-var user2 = new User()
-var user3 = new User()
-
-user1.setUser("hector", "1111")
-user2.setUser("paco", "1111")
-user3.setUser("test", "1111")
-const users = [user1, user2, user3]
 
 // Game
 let game = new Game()
@@ -140,5 +132,5 @@ const server = http.createServer((req, res) => {
 })
 
 server.listen(3001, "127.0.0.1", () => {
-    console.log("server on!")
+    console.log("Server node.js running on 3001")
 })
