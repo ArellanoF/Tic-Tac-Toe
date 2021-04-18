@@ -11,10 +11,12 @@ const Room = require("./models/room")
 
 var user1 = new User()
 var user2 = new User()
+var user3 = new User()
 
 user1.setUser("hector", "1111")
 user2.setUser("paco", "1111")
-const users = [user1, user2]
+user3.setUser("test", "1111")
+const users = [user1, user2, user3]
 
 // Game
 let game = new Game()
@@ -22,12 +24,13 @@ let game = new Game()
 // Rooms
 var roomWind = new Room()
 var roomFire = new Room()
+
 var roomWater = new Room()
 var roomEarth = new Room()
 
 roomWind.setRoom("wind", 0)
-roomFire.setRoom("fire", 2)
-roomWater.setRoom("water", 1)
+roomFire.setRoom("fire", 0)
+roomWater.setRoom("water", 0)
 roomEarth.setRoom("earth", 0)
 
 const allRooms = [roomWind, roomFire, roomWater, roomEarth]
@@ -97,17 +100,30 @@ const server = http.createServer((req, res) => {
                     console.log(err)
                     return
                 }
+                let roomFrom = fields.roomFrom
+                console.log(`Viene de ${roomFrom}`)
+                let roomFor = fields.roomFor
+                console.log(`Va hacía de ${roomFor}`)
 
                 allRooms.forEach((room) => {
-                    if (room.name === fields.roomFor) {
+                    if (room.name === roomFor) {
                         if (room.users < 2) {
+                            room.users++
                             game.setGame(room.users, room.name, null)
                             res.writeHead(202)
                         } else {
                             res.writeHead(401)
                         }
                     }
+                    if (room.name === roomFrom) {
+                        room.users--
+                    }
                 })
+                if (roomFor === "home") {
+                    console.log("va a home")
+                    res.writeHead(205)
+                }
+                console.log(allRooms)
             })
         }
     } else if (path === "/endgame") {
