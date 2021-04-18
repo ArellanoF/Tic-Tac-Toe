@@ -1,5 +1,6 @@
 const path = require("path")
 const User = require("../models/user")
+
 // Users
 
 var user1 = new User()
