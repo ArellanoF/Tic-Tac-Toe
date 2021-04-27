@@ -9,6 +9,7 @@ const gameRoom = localStorage.getItem("gameRoom")
 document.getElementById("gameRoom").innerHTML = gameRoom
 
 document.getElementById("invalid").style.display = "none"
+document.getElementById("playerNmbr").style.display = "none"
 
 let roomFrom
 let roomFor
@@ -17,6 +18,7 @@ let roomFor
 document.getElementById("winnerDiv").style.display = "none"
 
 // Players
+
 let player1 = localStorage.getItem("user")
 let player2 = "Player 2"
 
@@ -49,6 +51,22 @@ async function drop(ev) {
         await function (res) {
             console.log(res.status)
 
+            res.json().then((data) => {
+                let playerNmbr = 0
+                playerNmbr = data.player
+                console.log(playerNmbr)
+            })
+            if (playerNmbr === 1) {
+                document.getElementById("playerNmbr").style.display = "inherit"
+                document.getElementById(
+                    "playerNmbr"
+                ).innerHTML = `You are the player: ${playerNmbr}, you start the game`
+            } else {
+                document.getElementById("playerNmbr").style.display = "inherit"
+                document.getElementById(
+                    "playerNmbr"
+                ).innerHTML = `You are the player: ${playerNmbr}, wait your turn`
+            }
             if (res.status === 202) {
                 ev.target.appendChild(document.getElementById(data))
                 document.getElementById("playBtn").disabled = false
@@ -70,13 +88,26 @@ async function drop(ev) {
 // Logout function
 function logout() {
     localStorage.clear()
-    window.location.replace("http://localhost:3001/login")
+    window.location.replace("http://localhost:3002/login")
 }
 // Activate gameZone
 document.getElementById("tresContainer").style.display = "none"
 function activateGame() {
     document.getElementById("tresContainer").style.display = "inherit"
     document.getElementById("waitingRoom").style.display = "none"
+}
+// socket io
+
+const socket = io("http://localhost:3002")
+socket.on("connection")
+
+let user = localStorage.getItem("user")
+socket.on("message", (data) => {
+    //Logica de cuando llega el message
+    console.log(data)
+})
+const sendMessage = () => {
+    socket.emit("message", user)
 }
 // Game usability
 

@@ -14,6 +14,18 @@ module.exports = {
                 if (room.users < 2) {
                     room.users++
                     res.status(202)
+                    if (room.users === 1) {
+                        // Player 1
+                        let player = {
+                            player: room.users,
+                        }
+                        res.send(player)
+                    }
+                    if (room.users === 2) {
+                        // Player 2
+
+                        res.json({ player: 1 })
+                    }
                     res.end()
                 } else {
                     res.status(401)

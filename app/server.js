@@ -1,6 +1,8 @@
 const express = require("express")
 const app = express()
 const path = require("path")
+const server = require("http").createServer(app)
+const io = require("socket.io")(server, { cors: { origin: "*" } })
 
 // Controllers
 const userController = require("./controllers/userController")
@@ -28,6 +30,20 @@ app.post("/game", gameController.post)
 app.get("/end-game")
 
 // Server listening
+/*
 app.listen(3002, () => {
     console.log("Server running on 3002")
+})
+*/
+// Socket io server
+server.listen(3002, () => {
+    console.log("Socket server running on 3002")
+})
+io.on("connection", (socket) => {
+    console.log("User connected: " + socket.id)
+
+    socket.on("message", (data) => {
+        console.log(data)
+        socket.broadcast.emit("message", data)
+    })
 })
