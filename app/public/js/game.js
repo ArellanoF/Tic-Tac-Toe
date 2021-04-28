@@ -19,8 +19,8 @@ document.getElementById("winnerDiv").style.display = "none"
 
 // Players
 
-let player1 = localStorage.getItem("user")
-let player2 = "Player 2"
+//let player1 = localStorage.getItem("user")
+//let player2 = "Player 2"
 
 // Drag and Drop
 function allowDrop(ev) {
@@ -31,6 +31,7 @@ function drag(ev) {
     roomFrom = ev.path[1].id
     ev.dataTransfer.setData("text", ev.target.id)
 }
+let playerNmbr
 
 async function drop(ev) {
     ev.preventDefault()
@@ -52,21 +53,25 @@ async function drop(ev) {
             console.log(res.status)
 
             res.json().then((data) => {
-                let playerNmbr = 0
                 playerNmbr = data.player
-                console.log(playerNmbr)
+
+                if (playerNmbr === 1) {
+                    let playerMessage = `You are the player: ${playerNmbr}, start the game!`
+                    document.getElementById("playerNmbr").style.display =
+                        "inherit"
+                    document.getElementById(
+                        "playerNmbr"
+                    ).innerHTML = playerMessage
+                } else {
+                    let playerMessage = `You are the player: ${playerNmbr}, wait the player 1 movement!`
+                    document.getElementById("playerNmbr").style.display =
+                        "inherit"
+                    document.getElementById(
+                        "playerNmbr"
+                    ).innerHTML = playerMessage
+                }
             })
-            if (playerNmbr === 1) {
-                document.getElementById("playerNmbr").style.display = "inherit"
-                document.getElementById(
-                    "playerNmbr"
-                ).innerHTML = `You are the player: ${playerNmbr}, you start the game`
-            } else {
-                document.getElementById("playerNmbr").style.display = "inherit"
-                document.getElementById(
-                    "playerNmbr"
-                ).innerHTML = `You are the player: ${playerNmbr}, wait your turn`
-            }
+
             if (res.status === 202) {
                 ev.target.appendChild(document.getElementById(data))
                 document.getElementById("playBtn").disabled = false
@@ -104,7 +109,6 @@ socket.on("connection")
 let user = localStorage.getItem("user")
 socket.on("message", (data) => {
     //Logica de cuando llega el message
-    console.log(data)
 })
 const sendMessage = () => {
     socket.emit("message", user)
@@ -134,11 +138,11 @@ function btnPulse(event, position) {
                     .forEach((button) => (button.disabled = true))
                 if (color === "red") {
                     console.log(color)
-                    document.getElementById("winner").innerHTML = player1
+                    //document.getElementById("winner").innerHTML = player1
                 }
                 if (color === "green") {
                     console.log(color)
-                    document.getElementById("winner").innerHTML = player2
+                    //document.getElementById("winner").innerHTML = player2
                 }
             }
         })

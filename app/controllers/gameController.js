@@ -23,8 +23,10 @@ module.exports = {
                     }
                     if (room.users === 2) {
                         // Player 2
-
-                        res.json({ player: 1 })
+                        let player = {
+                            player: room.users,
+                        }
+                        res.json(player)
                     }
                     res.end()
                 } else {
