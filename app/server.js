@@ -29,12 +29,6 @@ app.post("/game", gameController.post)
 // End games
 app.get("/end-game")
 
-// Server listening
-/*
-app.listen(3002, () => {
-    console.log("Server running on 3002")
-})
-*/
 // Socket io server
 server.listen(3002, () => {
     console.log("Socket server running on 3002")
@@ -43,7 +37,13 @@ io.on("connection", (socket) => {
     console.log("User connected: " + socket.id)
 
     socket.on("message", (data) => {
-        console.log(data)
-        socket.broadcast.emit("message", data)
+        if (data === 1) {
+            let response = "2"
+            socket.broadcast.emit("response", response)
+        }
+        if (data === 2) {
+            let response = "1"
+            socket.broadcast.emit("response", response)
+        }
     })
 })

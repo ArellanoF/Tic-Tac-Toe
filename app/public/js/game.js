@@ -106,13 +106,25 @@ function activateGame() {
 const socket = io("http://localhost:3002")
 socket.on("connection")
 
-let user = localStorage.getItem("user")
-socket.on("message", (data) => {
-    //Logica de cuando llega el message
+socket.on("response", (data) => {
+    if (data === "2") {
+        const player = "Turno del player 2"
+        /* en vez de escribir el mensaje: 
+            1. div alert playerNmbr displaye none
+            2. cambiar el turno y asignarselo al player
+            3. En vez de imprimir mensaje que cambie color
+        */
+        document.getElementById("playerNmbr").innerHTML = player
+    }
+    if (data === "1") {
+        const player = "Turno del player 1"
+        document.getElementById("playerNmbr").innerHTML = player
+    }
 })
 const sendMessage = () => {
-    socket.emit("message", user)
+    socket.emit("message", playerNmbr)
 }
+
 // Game usability
 
 let turn = 0
