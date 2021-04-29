@@ -32,7 +32,7 @@
             </div>
             <div class="row winnerDiv" id="winnerDiv">
                 <div class="alert alert-success winnerDiv"   role="alert">
-                    The winner is: <span id="winner"></span>
+                    <span id="winner"></span>
                   </div>
             </div>
        
@@ -54,15 +54,15 @@
                     <div class="gamePitch">
                         <h1 id="waitingRoom" class="waitingRoom">Waiting to choose a room...</h1>  
                         <div class="row tresContainer" id="tresContainer">                        
-                          <button onclick="sendMessage()" class="gameButton"></button>
-                          <button onclick="sendMessage()" class="gameButton"></button>
-                          <button onclick="sendMessage()" class="gameButton"></button>
-                          <button onclick="sendMessage()" class="gameButton"></button>
-                          <button onclick="sendMessage()" class="gameButton"></button>
-                          <button onclick="sendMessage()" class="gameButton"></button>
-                          <button onclick="sendMessage()" class="gameButton"></button>
-                          <button onclick="sendMessage()" class="gameButton"></button>
-                          <button onclick="sendMessage()" class="gameButton"></button>
+                          <button class="gameButton"></button>
+                          <button class="gameButton"></button>
+                          <button class="gameButton"></button>
+                          <button class="gameButton"></button>
+                          <button class="gameButton"></button>
+                          <button class="gameButton"></button>
+                          <button class="gameButton"></button>
+                          <button class="gameButton"></button>
+                          <button class="gameButton"></button>
                     </div>
                   
         
@@ -70,7 +70,7 @@
                 </div>
                 <div class="col-4 main">
                     <div class="row">
-                        <div class="container userInfo">
+                        <div class="container userInfo" id="userInfo">
                             <div class="col-3 userPlay">
                                 <span class="localStorageInfo">Welcome: <h2 id="username" value=""></h2></span>
                                 <span class="localStorageInfo">Room: <h3 id="gameRoom" value=""></h3></span>

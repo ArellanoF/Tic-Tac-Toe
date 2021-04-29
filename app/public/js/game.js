@@ -17,11 +17,6 @@ let roomFor
 // Display Winner Div alert
 document.getElementById("winnerDiv").style.display = "none"
 
-// Players
-
-//let player1 = localStorage.getItem("user")
-//let player2 = "Player 2"
-
 // Drag and Drop
 function allowDrop(ev) {
     ev.preventDefault()
@@ -101,65 +96,71 @@ function activateGame() {
     document.getElementById("tresContainer").style.display = "inherit"
     document.getElementById("waitingRoom").style.display = "none"
 }
-// socket io
+// socket io + Game usability
+let pitch = []
 
 const socket = io("http://localhost:3002")
 socket.on("connection")
 
-socket.on("response", (data) => {
-    if (data === "2") {
-        const player = "Turno del player 2"
-        /* en vez de escribir el mensaje: 
-            1. div alert playerNmbr displaye none
-            2. cambiar el turno y asignarselo al player
-            3. En vez de imprimir mensaje que cambie color
+socket.on("game", (data) => {
+    const { player, position } = data
+
+    console.log(position)
+    if (player === 2) {
+        document.getElementById("playerNmbr").style.display = "none"
+        const canvas = document.querySelectorAll(".gameButton")[position]
+        const ctx = canvas.getContext("2d")
+        ctx.fillStyle = "green"
+        /*
+        document.querySelectorAll(".gameButton")[
+            position
+        ].style.backgroundColor = "green"
         */
-        document.getElementById("playerNmbr").innerHTML = player
+        document.querySelectorAll(".gameButton")[position].disabled = true
+        pitch[position] = player
+        if (winner()) {
+            console.log(`Player: ${player} wins!`)
+            const winners = fetch("/endgame").then(function (res) {
+                if (res.status === 200) {
+                    document.getElementById("winnerDiv").style.display =
+                        "inherit"
+                    document
+                        .querySelectorAll(".gameButton")
+                        .forEach((button) => (button.disabled = true))
+                    document.getElementById(
+                        "winner"
+                    ).innerHTML = `Player: ${player} wins!`
+                }
+            })
+        }
     }
-    if (data === "1") {
-        const player = "Turno del player 1"
-        document.getElementById("playerNmbr").innerHTML = player
+    if (player === 1) {
+        document.getElementById("playerNmbr").style.display = "none"
+        document.querySelectorAll(".gameButton")[
+            position
+        ].style.backgroundColor = "red"
+        document.querySelectorAll(".gameButton")[position].disabled = true
+        pitch[position] = player
+        if (winner()) {
+            console.log(`Player: ${player} wins!`)
+            const winners = fetch("/endgame").then(function (res) {
+                if (res.status === 200) {
+                    document.getElementById("winnerDiv").style.display =
+                        "inherit"
+                    document
+                        .querySelectorAll(".gameButton")
+                        .forEach((button) => (button.disabled = true))
+                    document.getElementById(
+                        "winner"
+                    ).innerHTML = `Player: ${player} wins!`
+                }
+            })
+        }
     }
 })
-const sendMessage = () => {
-    socket.emit("message", playerNmbr)
-}
 
 // Game usability
 
-let turn = 0
-let pitch = []
-function btnPulse(event, position) {
-    turn++
-    const btn = event.target
-    const color = turn % 2 ? "red" : "green"
-    btn.style.backgroundColor = color
-    pitch[position] = color
-    if (winner()) {
-        fetch("/endgame", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            credentials: "same-origin",
-        }).then(function (res) {
-            if (res.status === 200) {
-                document.getElementById("winnerDiv").style.display = "inherit"
-                document
-                    .querySelectorAll(".gameButton")
-                    .forEach((button) => (button.disabled = true))
-                if (color === "red") {
-                    console.log(color)
-                    //document.getElementById("winner").innerHTML = player1
-                }
-                if (color === "green") {
-                    console.log(color)
-                    //document.getElementById("winner").innerHTML = player2
-                }
-            }
-        })
-    }
-}
 function winner() {
     if (pitch[0] == pitch[1] && pitch[1] == pitch[2] && pitch[0]) {
         return true
@@ -181,8 +182,12 @@ function winner() {
 
     return false
 }
-document
-    .querySelectorAll(".gameButton")
-    .forEach((button, i) =>
-        button.addEventListener("click", (e) => btnPulse(e, i))
-    )
+document.querySelectorAll(".gameButton").forEach((button, i) =>
+    button.addEventListener("click", () => {
+        let game = {
+            player: playerNmbr,
+            position: i,
+        }
+        socket.emit("game", game)
+    })
+)

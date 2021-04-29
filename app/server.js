@@ -7,6 +7,7 @@ const io = require("socket.io")(server, { cors: { origin: "*" } })
 // Controllers
 const userController = require("./controllers/userController")
 const gameController = require("./controllers/gameController")
+const endGameController = require("./controllers/endGameController")
 
 // Express utilities
 app.use(express.urlencoded({ extended: true }))
@@ -27,7 +28,7 @@ app.get("/game", gameController.get)
 app.post("/game", gameController.post)
 
 // End games
-app.get("/end-game")
+app.get("/endgame", endGameController.get)
 
 // Socket io server
 server.listen(3002, () => {
@@ -36,14 +37,15 @@ server.listen(3002, () => {
 io.on("connection", (socket) => {
     console.log("User connected: " + socket.id)
 
-    socket.on("message", (data) => {
-        if (data === 1) {
-            let response = "2"
-            socket.broadcast.emit("response", response)
+    socket.on("game", (data) => {
+        const { player } = data
+
+        if (player === 1) {
+            socket.broadcast.emit("game", data)
         }
-        if (data === 2) {
-            let response = "1"
-            socket.broadcast.emit("response", response)
+        if (player === 2) {
+            socket.broadcast.emit("game", data)
         }
+        io.emit("game", data)
     })
 })
