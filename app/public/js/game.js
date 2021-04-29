@@ -104,18 +104,21 @@ socket.on("connection")
 
 socket.on("game", (data) => {
     const { player, position } = data
-
-    console.log(position)
     if (player === 2) {
         document.getElementById("playerNmbr").style.display = "none"
-        const canvas = document.querySelectorAll(".gameButton")[position]
-        const ctx = canvas.getContext("2d")
-        ctx.fillStyle = "green"
-        /*
-        document.querySelectorAll(".gameButton")[
+        const canvas = document.querySelectorAll(".gameButton > canvas")[
             position
-        ].style.backgroundColor = "green"
-        */
+        ]
+        const ctx = canvas.getContext("2d")
+        var grd = ctx.createRadialGradient(75, 50, 5, 90, 60, 100)
+        grd.addColorStop(0, "green")
+        grd.addColorStop(1, "white")
+        ctx.fillStyle = grd
+        ctx.fillRect(10, 10, 100, 100)
+
+        ctx.font = "bold 50px Arial"
+        ctx.strokeText("O", 40, 75)
+
         document.querySelectorAll(".gameButton")[position].disabled = true
         pitch[position] = player
         if (winner()) {
@@ -136,9 +139,18 @@ socket.on("game", (data) => {
     }
     if (player === 1) {
         document.getElementById("playerNmbr").style.display = "none"
-        document.querySelectorAll(".gameButton")[
+        const canvas = document.querySelectorAll(".gameButton > canvas")[
             position
-        ].style.backgroundColor = "red"
+        ]
+        const ctx = canvas.getContext("2d")
+        var grd = ctx.createRadialGradient(75, 50, 5, 90, 60, 100)
+        grd.addColorStop(0, "red")
+        grd.addColorStop(1, "white")
+        ctx.fillStyle = grd
+        ctx.fillRect(10, 10, 100, 100)
+
+        ctx.font = "bold 50px Arial"
+        ctx.strokeText("X", 40, 75)
         document.querySelectorAll(".gameButton")[position].disabled = true
         pitch[position] = player
         if (winner()) {
