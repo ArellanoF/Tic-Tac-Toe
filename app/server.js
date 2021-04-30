@@ -3,6 +3,12 @@ const app = express()
 const path = require("path")
 const server = require("http").createServer(app)
 const io = require("socket.io")(server, { cors: { origin: "*" } })
+require("./mongo")
+const User = require('./data/user'); // importa el esquema
+
+//MongooDB 
+const user = new User({ userName: 'El Makikon!' }); // crea la entidad
+user.save(); // guarda en bd
 
 // Controllers
 const userController = require("./controllers/userController")
