@@ -7,12 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.slim.js"></script>
 
+    <!-- Socket IO -->
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" >
 
-        <link rel="stylesheet" type="text/css" href="/css/game.css" />
+    <link rel="stylesheet" type="text/css" href="/css/game.css" />
     <title>Javascripters</title>
 </head>
 
@@ -31,7 +32,7 @@
             </div>
             <div class="row winnerDiv" id="winnerDiv">
                 <div class="alert alert-success winnerDiv"   role="alert">
-                    The winner is: <span id="winner"></span>
+                    <span id="winner"></span>
                   </div>
             </div>
        
@@ -42,6 +43,13 @@
                         <div class="container-fluid text-center header">
                             <h2>Game Zone</h2>
                                          </div>
+                    </div>
+                   <div
+                        class="alert alert-danger mt-3"
+                        role="alert"
+                        id="playerNmbr"
+                    >
+                      
                     </div>
                     <div class="gamePitch">
                         <h1 id="waitingRoom" class="waitingRoom">Waiting to choose a room...</h1>  
@@ -56,13 +64,13 @@
                           <button class="gameButton"></button>
                           <button class="gameButton"></button>
                     </div>
-                   
+                  
         
                     </div>
                 </div>
                 <div class="col-4 main">
                     <div class="row">
-                        <div class="container userInfo">
+                        <div class="container userInfo" id="userInfo">
                             <div class="col-3 userPlay">
                                 <span class="localStorageInfo">Welcome: <h2 id="username" value=""></h2></span>
                                 <span class="localStorageInfo">Room: <h3 id="gameRoom" value=""></h3></span>

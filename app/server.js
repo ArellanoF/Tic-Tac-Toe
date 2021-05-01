@@ -1,10 +1,13 @@
 const express = require("express")
 const app = express()
 const path = require("path")
+const server = require("http").createServer(app)
+const io = require("socket.io")(server, { cors: { origin: "*" } })
 
 // Controllers
 const userController = require("./controllers/userController")
 const gameController = require("./controllers/gameController")
+const endGameController = require("./controllers/endGameController")
 
 // Express utilities
 app.use(express.urlencoded({ extended: true }))
@@ -25,9 +28,24 @@ app.get("/game", gameController.get)
 app.post("/game", gameController.post)
 
 // End games
-app.get("/end-game")
+app.get("/endgame", endGameController.get)
 
-// Server listening
-app.listen(3002, () => {
-    console.log("Server running on 3002")
+// Socket io server
+server.listen(3002, () => {
+    console.log("Socket server running on 3002")
+})
+io.on("connection", (socket) => {
+    console.log("User connected: " + socket.id)
+
+    socket.on("game", (data) => {
+        const { player } = data
+
+        if (player === 1) {
+            socket.broadcast.emit("game", data)
+        }
+        if (player === 2) {
+            socket.broadcast.emit("game", data)
+        }
+        io.emit("game", data)
+    })
 })

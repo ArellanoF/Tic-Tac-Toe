@@ -9,16 +9,13 @@ const gameRoom = localStorage.getItem("gameRoom")
 document.getElementById("gameRoom").innerHTML = gameRoom
 
 document.getElementById("invalid").style.display = "none"
+document.getElementById("playerNmbr").style.display = "none"
 
 let roomFrom
 let roomFor
 
 // Display Winner Div alert
 document.getElementById("winnerDiv").style.display = "none"
-
-// Players
-let player1 = localStorage.getItem("user")
-let player2 = "Player 2"
 
 // Drag and Drop
 function allowDrop(ev) {
@@ -29,6 +26,7 @@ function drag(ev) {
     roomFrom = ev.path[1].id
     ev.dataTransfer.setData("text", ev.target.id)
 }
+let playerNmbr
 
 async function drop(ev) {
     ev.preventDefault()
@@ -48,6 +46,26 @@ async function drop(ev) {
     }).then(
         await function (res) {
             console.log(res.status)
+
+            res.json().then((data) => {
+                playerNmbr = data.player
+
+                if (playerNmbr === 1) {
+                    let playerMessage = `You are the player: ${playerNmbr}, start the game!`
+                    document.getElementById("playerNmbr").style.display =
+                        "inherit"
+                    document.getElementById(
+                        "playerNmbr"
+                    ).innerHTML = playerMessage
+                } else {
+                    let playerMessage = `You are the player: ${playerNmbr}, wait the player 1 movement!`
+                    document.getElementById("playerNmbr").style.display =
+                        "inherit"
+                    document.getElementById(
+                        "playerNmbr"
+                    ).innerHTML = playerMessage
+                }
+            })
 
             if (res.status === 202) {
                 ev.target.appendChild(document.getElementById(data))
@@ -70,7 +88,7 @@ async function drop(ev) {
 // Logout function
 function logout() {
     localStorage.clear()
-    window.location.replace("http://localhost:3001/login")
+    window.location.replace("http://localhost:3002/login")
 }
 // Activate gameZone
 document.getElementById("tresContainer").style.display = "none"
@@ -78,41 +96,71 @@ function activateGame() {
     document.getElementById("tresContainer").style.display = "inherit"
     document.getElementById("waitingRoom").style.display = "none"
 }
+// socket io + Game usability
+let pitch = []
+
+const socket = io("http://localhost:3002")
+socket.on("connection")
+
+socket.on("game", (data) => {
+    const { player, position } = data
+
+    console.log(position)
+    if (player === 2) {
+        document.getElementById("playerNmbr").style.display = "none"
+        const canvas = document.querySelectorAll(".gameButton")[position]
+        const ctx = canvas.getContext("2d")
+        ctx.fillStyle = "green"
+        /*
+        document.querySelectorAll(".gameButton")[
+            position
+        ].style.backgroundColor = "green"
+        */
+        document.querySelectorAll(".gameButton")[position].disabled = true
+        pitch[position] = player
+        if (winner()) {
+            console.log(`Player: ${player} wins!`)
+            const winners = fetch("/endgame").then(function (res) {
+                if (res.status === 200) {
+                    document.getElementById("winnerDiv").style.display =
+                        "inherit"
+                    document
+                        .querySelectorAll(".gameButton")
+                        .forEach((button) => (button.disabled = true))
+                    document.getElementById(
+                        "winner"
+                    ).innerHTML = `Player: ${player} wins!`
+                }
+            })
+        }
+    }
+    if (player === 1) {
+        document.getElementById("playerNmbr").style.display = "none"
+        document.querySelectorAll(".gameButton")[
+            position
+        ].style.backgroundColor = "red"
+        document.querySelectorAll(".gameButton")[position].disabled = true
+        pitch[position] = player
+        if (winner()) {
+            console.log(`Player: ${player} wins!`)
+            const winners = fetch("/endgame").then(function (res) {
+                if (res.status === 200) {
+                    document.getElementById("winnerDiv").style.display =
+                        "inherit"
+                    document
+                        .querySelectorAll(".gameButton")
+                        .forEach((button) => (button.disabled = true))
+                    document.getElementById(
+                        "winner"
+                    ).innerHTML = `Player: ${player} wins!`
+                }
+            })
+        }
+    }
+})
+
 // Game usability
 
-let turn = 0
-let pitch = []
-function btnPulse(event, position) {
-    turn++
-    const btn = event.target
-    const color = turn % 2 ? "red" : "green"
-    btn.style.backgroundColor = color
-    pitch[position] = color
-    if (winner()) {
-        fetch("/endgame", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            credentials: "same-origin",
-        }).then(function (res) {
-            if (res.status === 200) {
-                document.getElementById("winnerDiv").style.display = "inherit"
-                document
-                    .querySelectorAll(".gameButton")
-                    .forEach((button) => (button.disabled = true))
-                if (color === "red") {
-                    console.log(color)
-                    document.getElementById("winner").innerHTML = player1
-                }
-                if (color === "green") {
-                    console.log(color)
-                    document.getElementById("winner").innerHTML = player2
-                }
-            }
-        })
-    }
-}
 function winner() {
     if (pitch[0] == pitch[1] && pitch[1] == pitch[2] && pitch[0]) {
         return true
@@ -134,8 +182,12 @@ function winner() {
 
     return false
 }
-document
-    .querySelectorAll(".gameButton")
-    .forEach((button, i) =>
-        button.addEventListener("click", (e) => btnPulse(e, i))
-    )
+document.querySelectorAll(".gameButton").forEach((button, i) =>
+    button.addEventListener("click", () => {
+        let game = {
+            player: playerNmbr,
+            position: i,
+        }
+        socket.emit("game", game)
+    })
+)
