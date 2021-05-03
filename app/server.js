@@ -7,8 +7,8 @@ require("./mongo")
 const User = require('./data/user'); // importa el esquema
 
 //MongooDB 
-const user = new User({ userName: 'El Makinon!' }); // crea la entidad
-user.save(); // guarda en bd
+// const user = new User({ userName: 'El Makinon!' }); // crea la entidad
+// user.save(); // guarda en bd
 
 // Controllers
 const userController = require("./controllers/userController")
