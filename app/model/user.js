@@ -1,9 +1,14 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-  userName: String,
-  password: String,
-  score: String
+  userName: {
+    type: String,
+    required: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
 });
 
 const user = mongoose.model('user', userSchema);
