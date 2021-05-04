@@ -4,11 +4,7 @@ const path = require("path")
 const server = require("http").createServer(app)
 const io = require("socket.io")(server, { cors: { origin: "*" } })
 require("./mongo")
-const User = require('./model/user'); // importa el esquema
-
-//MongooDB 
-// const user = new User({ userName: 'El Makinon!' }); // crea la entidad
-// user.save(); // guarda en bd
+const User = require("./model/user") // importa el esquema
 
 // Controllers
 const userController = require("./controllers/userController")

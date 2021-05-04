@@ -1,22 +1,35 @@
 const path = require("path")
-const Users = require("../models/users")
+
+const User = require("../model/user")
 
 module.exports = {
     get: (req, res) => {
         res.sendFile(path.join(__dirname, "../views", "login.html"))
     },
     post: (req, res) => {
-        userLogged = req.body.user
-        passLogged = req.body.password
-        Users.forEach((user) => {
-            if (user.username === userLogged && user.password === passLogged) {
-                res.status(202)
-                res.sendFile(path.join(__dirname, "../views", "game.html"))
+        reqUsername = req.body.user
+        reqPassword = req.body.password
+
+        User.findOne(
+            { userName: reqUsername, password: reqPassword },
+            function (err, user) {
+                if (err) {
+                    console.log(err)
+                    return res.status(500).end()
+                }
+                if (!user) {
+                    return res
+                        .status(401)
+                        .send({
+                            Server: "Tus credenciales son incorrectas!",
+                        })
+                        .end()
+                }
+                if (user) {
+                    res.status(202)
+                    res.sendFile(path.join(__dirname, "../views", "game.html"))
+                }
             }
-            if (passLogged !== user.password) {
-                res.status(401)
-                res.end()
-            }
-        })
+        )
     },
 }
