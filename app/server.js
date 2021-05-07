@@ -27,7 +27,6 @@ app.post("/register", registerController.post)
 app.get("/", registerController.get)
 
 // Login
-
 app.get("/login", userController.get)
 app.post("/login", userController.post)
 
