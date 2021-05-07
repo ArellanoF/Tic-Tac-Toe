@@ -51,7 +51,7 @@ submit.addEventListener("click", async (event) => {
         }).then(
             await function (res) {
                 if (res.status === 202) {
-                    console.log("Registered")
+                    console.log("Login")
                     registered = true
                     if (registered) {
                         window.location.replace("http://localhost:3002/game")

@@ -3,11 +3,14 @@ const app = express()
 const path = require("path")
 const server = require("http").createServer(app)
 const io = require("socket.io")(server, { cors: { origin: "*" } })
+require("./mongo")
+const User = require("./model/user") // importa el esquema
 
 // Controllers
 const userController = require("./controllers/userController")
 const gameController = require("./controllers/gameController")
 const endGameController = require("./controllers/endGameController")
+const registerController = require("./controllers/registerController")
 
 // Express utilities
 app.use(express.urlencoded({ extended: true }))
@@ -18,8 +21,13 @@ app.use(express.static("public"))
 app.use("/css", express.static(__dirname + "/public/css"))
 app.use("/js", express.static(__dirname + "/public/js"))
 
+//Register
+app.get("/register", registerController.get)
+app.post("/register", registerController.post)
+app.get("/", registerController.get)
+
 // Login
-app.get("/", userController.get)
+
 app.get("/login", userController.get)
 app.post("/login", userController.post)
 

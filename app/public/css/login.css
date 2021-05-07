@@ -6,13 +6,13 @@
 }
 
 .form-container {
-    position: absolute;
-    top: 15vh;
     background-color: grey;
     padding: 10px;
     border: none;
     border-radius: 10px;
     box-shadow: 0px 0px 10px 0px black;
+    margin-top: 10em;
+    width: 25em;
 }
 .avatars {
     border-radius: 10px;
@@ -21,4 +21,11 @@
 .avatars:focus {
     border: 2px solid red;
     outline: none;
+}
+#other {
+    background-color: white;
+    border: none;
+    outline: none;
+    color: black;
+    font-weight: bold;
 }
