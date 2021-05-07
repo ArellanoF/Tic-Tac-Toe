@@ -24,9 +24,10 @@ app.use("/js", express.static(__dirname + "/public/js"))
 //Register
 app.get("/register", registerController.get)
 app.post("/register", registerController.post)
+app.get("/", registerController.get)
 
 // Login
-app.get("/", userController.get)
+
 app.get("/login", userController.get)
 app.post("/login", userController.post)
 

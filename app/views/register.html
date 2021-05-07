@@ -18,25 +18,23 @@
 
         <title>Javascripters</title>
     </head>
-    
+
     <body>
-        
         <main>
             <div class="container-fluid bg">
-                <div class="welcomeMessage">
-                        "WELCOME!!!, please enter a username and password to register and enjoy the game"
-               
-                </div>
-                <div class="row justify-content-center">
+                <div class="row justify-content-center welcome">
                     <div class="col-12 col-sm-8 col-md-4">
-                    
+                        <h2>Register</h2>
+                    </div>
+                </div>
+                <div class="row justify-content-center form">
+                    <div class="col-12 col-sm-8 col-md-4">
                         <form
                             action="/register"
                             method="POST"
                             id="registerForm"
                             class="form-container"
                         >
-                        
                             <div class="form-group">
                                 <label for="username">Username</label>
                                 <input
@@ -59,8 +57,7 @@
                                     required
                                 />
                             </div>
-                            
-                            
+
                             <button
                                 id="submit"
                                 type="submit"
@@ -68,6 +65,23 @@
                             >
                                 Register
                             </button>
+                            <br />
+                            <p>Are you registered?</p>
+                            <button
+                                onclick="window.location.href='/login'"
+                                id="other"
+                                type="submit"
+                                class="btn btn-dark btn-block other"
+                            >
+                                Login
+                            </button>
+                            <div
+                                class="alert alert-danger mt-3"
+                                role="alert"
+                                id="invalid"
+                            >
+                                Error on server
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -76,6 +90,6 @@
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
-                <script src="/js/register.js"></script>
+        <script src="/js/register.js"></script>
     </body>
 </html>

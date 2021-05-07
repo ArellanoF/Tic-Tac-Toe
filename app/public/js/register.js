@@ -2,6 +2,8 @@ let username = document.querySelector("#username")
 let password = document.querySelector("#password")
 let submit = document.querySelector("#submit")
 
+document.getElementById("invalid").style.display = "none"
+
 submit.addEventListener("click", async (event) => {
     event.preventDefault()
     var registered = false
@@ -20,14 +22,14 @@ submit.addEventListener("click", async (event) => {
             await function (res) {
                 if (res.status === 202) {
                     console.log("Registered")
-                   
                     registered = true
                     if (registered) {
-                        alert("You are registered correctly! Enjoy the game!")
                         window.location.replace("http://localhost:3002/login")
-                    
                     }
-                } 
+                } else {
+                    document.getElementById("invalid").style.display = "inherit"
+                    document.getElementById("invalid").style.color = "red"
+                }
             }
         )
     }
