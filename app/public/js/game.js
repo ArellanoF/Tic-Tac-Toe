@@ -123,7 +123,19 @@ socket.on("game", (data) => {
         pitch[position] = player
         if (winner()) {
             console.log(`Player: ${player} wins!`)
-            const winners = fetch("/endgame").then(function (res) {
+
+            fetch("/endgame", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "same-origin",
+                body: JSON.stringify({
+                    username: username,
+                    wins: 1,
+                    roomFrom: roomFrom,
+                }),
+            }).then(function (res) {
                 if (res.status === 200) {
                     document.getElementById("winnerDiv").style.display =
                         "inherit"
@@ -133,6 +145,9 @@ socket.on("game", (data) => {
                     document.getElementById(
                         "winner"
                     ).innerHTML = `Player: ${player} wins!`
+                    setTimeout(function () {
+                        window.location.replace("/points")
+                    }, 1750)
                 }
             })
         }
@@ -155,7 +170,18 @@ socket.on("game", (data) => {
         pitch[position] = player
         if (winner()) {
             console.log(`Player: ${player} wins!`)
-            const winners = fetch("/endgame").then(function (res) {
+            const winners = fetch("/endgame", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "same-origin",
+                body: JSON.stringify({
+                    username: username,
+                    wins: 1,
+                    roomFor: roomFor,
+                }),
+            }).then(function (res) {
                 if (res.status === 200) {
                     document.getElementById("winnerDiv").style.display =
                         "inherit"
@@ -165,6 +191,9 @@ socket.on("game", (data) => {
                     document.getElementById(
                         "winner"
                     ).innerHTML = `Player: ${player} wins!`
+                    setTimeout(function () {
+                        window.location.replace("/points")
+                    }, 2500)
                 }
             })
         }

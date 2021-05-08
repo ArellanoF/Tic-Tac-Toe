@@ -11,6 +11,8 @@ const userController = require("./controllers/userController")
 const gameController = require("./controllers/gameController")
 const endGameController = require("./controllers/endGameController")
 const registerController = require("./controllers/registerController")
+const pointsController = require("./controllers/pointsController")
+const scoresController = require("./controllers/scoresController")
 
 // Express utilities
 app.use(express.urlencoded({ extended: true }))
@@ -35,7 +37,11 @@ app.get("/game", gameController.get)
 app.post("/game", gameController.post)
 
 // End games
-app.get("/endgame", endGameController.get)
+app.post("/endgame", endGameController.post)
+
+// Scores
+app.get("/points", pointsController.get)
+app.get("/scores", scoresController.get)
 
 // Socket io server
 server.listen(3002, () => {
