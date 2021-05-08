@@ -1,5 +1,5 @@
 const path = require("path")
-const allRooms = require("../models/rooms")
+
 const Room = require("../model/room")
 
 module.exports = {
