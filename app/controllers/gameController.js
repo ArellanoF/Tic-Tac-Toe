@@ -10,40 +10,59 @@ module.exports = {
         let roomFrom = req.body.roomFrom
         let roomFor = req.body.roomFor
 
-        allRooms.forEach((room) => {
-            if (room.name === roomFor) {
-                if (room.users < 2) {
-                    room.users++
-                    res.status(202)
-                    if (room.users === 1) {
-                        // Player 1
-                        let player = {
-                            player: room.users,
-                        }
-                        res.send(player)
-                    }
-                    if (room.users === 2) {
-                        // Player 2
-                        let player = {
-                            player: room.users,
-                        }
-                        res.json(player)
-                    }
-                    res.end()
-                } else {
-                    res.status(401)
-                    res.end()
-                }
+        Room.findOne({ room: roomFrom }, function (err, room) {
+            if (err) {
+                console.log(err)
+                return res.status(500).end()
             }
-            if (room.name === roomFrom) {
-                room.users--
+            if (room.users > 0) {
+                Room.findOneAndUpdate(
+                    { room: roomFrom },
+                    {
+                        $inc: {
+                            users: -1,
+                        },
+                    },
+                    function (err, room) {
+                        if (err) {
+                            console.log(err)
+                            return res.status(500).end()
+                        }
+                        if (room) {
+                            res.status(202)
+                            res.end()
+                        }
+                    }
+                )
             }
         })
-        if (roomFor === "home") {
-            console.log("va a home")
-            res.status(205)
-            res.end()
-        }
-        console.log(allRooms)
+        Room.findOneAndUpdate(
+            { room: roomFor },
+            { $inc: { users: 1 } },
+            function (err, room) {
+                if (err) {
+                    console.log(err)
+                } else {
+                    if (room.users == 0) {
+                        let player = {
+                            player: room.users + 1,
+                        }
+                        res.status(202)
+                        res.json(player)
+                    }
+                    if (room.users == 1) {
+                        let player = {
+                            player: room.users + 1,
+                        }
+                        res.status(202)
+                        res.json(player)
+                    }
+                    if (room.users == 2) {
+                        res.status(401)
+                        res.end()
+                    }
+                }
+            }
+        )
     },
 }
