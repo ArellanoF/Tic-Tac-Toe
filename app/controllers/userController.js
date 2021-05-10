@@ -1,5 +1,4 @@
 const path = require("path")
-
 const User = require("../model/user")
 
 module.exports = {
@@ -21,13 +20,14 @@ module.exports = {
                     return res
                         .status(401)
                         .send({
-                            Server: "Tus credenciales son incorrectas!",
+                            Server: "Invalid credentials, try again!",
                         })
                         .end()
                 }
                 if (user) {
                     res.status(202)
                     res.sendFile(path.join(__dirname, "../views", "game.html"))
+                    res.json("Login correct!")
                 }
             }
         )
