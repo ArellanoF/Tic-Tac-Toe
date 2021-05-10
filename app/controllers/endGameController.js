@@ -4,6 +4,15 @@ const Room = require("../model/room")
 
 module.exports = {
     post: (req, res) => {
+        // Seleccionar  el ganador
+        /*
+            { 
+                "champion": "hector",
+                "wins": 1,
+                "roomFor": "water"
+                
+            }
+        */
         const username = req.body.champion
         const points = req.body.wins
         const roomFor = req.body.roomFor

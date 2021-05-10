@@ -35,7 +35,7 @@ app.post("/login", userController.post) // Documentar API
 
 // Game
 app.get("/game", gameController.get)
-app.post("/game", gameController.post) // Documentar API
+app.post("/game", gameController.post)
 
 // End games
 app.post("/endgame", endGameController.post) // Documentar API
