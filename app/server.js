@@ -49,6 +49,11 @@ app.get("/rooms", apiController.getRooms) // Documentar API
 app.get("/users", apiController.getUsers) // Documentar API
 app.get("/ranking", apiController.getScores) // Documentar API
 
+/*
+    Los GETS van sin body. 
+    Los POST van con body!!! IMPORTANTE!
+*/
+
 // Socket io server
 server.listen(3002, () => {
     console.log("Socket server running on 3002")
