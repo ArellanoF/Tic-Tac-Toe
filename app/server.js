@@ -26,28 +26,28 @@ app.use("/js", express.static(__dirname + "/public/js"))
 
 //Register
 app.get("/register", registerController.get)
-app.post("/register", registerController.post)
+app.post("/register", registerController.post) // Documentar API
 app.get("/", registerController.get)
 
 // Login
 app.get("/login", userController.get)
-app.post("/login", userController.post)
+app.post("/login", userController.post) // Documentar API
 
 // Game
 app.get("/game", gameController.get)
-app.post("/game", gameController.post)
+app.post("/game", gameController.post) // Documentar API
 
 // End games
-app.post("/endgame", endGameController.post)
+app.post("/endgame", endGameController.post) // Documentar API
 
 // Scores
 app.get("/points", pointsController.get)
 app.get("/scores", scoresController.get)
 
 // REST API
-app.get("/rooms", apiController.getRooms)
-app.get("/users", apiController.getUsers)
-app.get("/ranking", apiController.getScores)
+app.get("/rooms", apiController.getRooms) // Documentar API
+app.get("/users", apiController.getUsers) // Documentar API
+app.get("/ranking", apiController.getScores) // Documentar API
 
 // Socket io server
 server.listen(3002, () => {
