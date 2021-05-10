@@ -29,6 +29,7 @@ module.exports = {
                             }
                             if (score) {
                                 res.status(200)
+                                res.json({ Champion: username, Score: score })
                                 res.end()
                             }
                         }
@@ -44,6 +45,7 @@ module.exports = {
                             }
                             if (score) {
                                 res.status(200)
+                                res.json({ Champion: username, Score: score })
                                 res.end()
                             }
                         }
@@ -61,10 +63,10 @@ module.exports = {
                     console.log(err)
                 } else {
                     console.log(room.room + "room restarted!")
+                    res.json("Room empty, ready to be played!")
                 }
             }
         )
-
         res.status(200)
         res.end()
     },
