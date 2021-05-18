@@ -4,26 +4,27 @@ const Room = require("../model/room")
 
 module.exports = {
     post: (req, res) => {
-        // Seleccionar  el ganador
-        /*
-            { 
-                "champion": "hector",
-                "wins": 1,
-                "roomFor": "water"
-                
-            }
-        */
         const username = req.body.champion
         const points = req.body.wins
         const roomFor = req.body.roomFor
 
         if (username) {
+            Room.findOneAndUpdate(
+                { room: roomFor },
+                { users: 0 },
+                function (err, room) {
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        console.log(room.room + " room restarted!")
+                    }
+                }
+            )
             Score.findOne({ userName: username }, function (err, score) {
                 if (err) {
                     console.log(err)
-                    return res.status(500).end()
-                }
-                if (score) {
+                    res.status(500)
+                } else {
                     Score.findOneAndUpdate(
                         { userName: username },
                         {
@@ -34,12 +35,15 @@ module.exports = {
                         function (err, score) {
                             if (err) {
                                 console.log(err)
-                                return res.status(500).end()
+                                res.status(500)
                             }
                             if (score) {
                                 res.status(200)
-                                res.json({ Champion: username, Score: score })
-                                res.end()
+                                res.json({
+                                    Champion: username,
+                                    Score: score.wins,
+                                    Room: roomFor + " room restarted!",
+                                })
                             }
                         }
                     )
@@ -50,33 +54,33 @@ module.exports = {
                         function (err, score) {
                             if (err) {
                                 console.log(err)
-                                return res.status(500).end()
+                                return res.status(500)
                             }
                             if (score) {
                                 res.status(200)
-                                res.json({ Champion: username, Score: score })
-                                res.end()
+                                res.json({
+                                    Champion: username,
+                                    Score: score.wins,
+                                    Room: roomFor + " room restarted!",
+                                })
                             }
                         }
                     )
                 }
             })
         }
-        console.log(username)
-
-        Room.findOneAndUpdate(
+        /*
+         Room.findOneAndUpdate(
             { room: roomFor },
             { users: 0 },
             function (err, room) {
                 if (err) {
                     console.log(err)
                 } else {
-                    console.log(room.room + "room restarted!")
-                    res.json("Room empty, ready to be played!")
+                    console.log(room.room + " room restarted!")
                 }
             }
         )
-        res.status(200)
-        res.end()
+         */
     },
 }
