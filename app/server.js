@@ -11,6 +11,9 @@ const userController = require("./controllers/userController")
 const gameController = require("./controllers/gameController")
 const endGameController = require("./controllers/endGameController")
 const registerController = require("./controllers/registerController")
+const pointsController = require("./controllers/pointsController")
+const scoresController = require("./controllers/scoresController")
+const apiController = require("./controllers/apiController")
 
 // Express utilities
 app.use(express.urlencoded({ extended: true }))
@@ -23,20 +26,33 @@ app.use("/js", express.static(__dirname + "/public/js"))
 
 //Register
 app.get("/register", registerController.get)
-app.post("/register", registerController.post)
+app.post("/register", registerController.post) // Documentar API
 app.get("/", registerController.get)
 
 // Login
-
 app.get("/login", userController.get)
-app.post("/login", userController.post)
+app.post("/login", userController.post) // Documentar API
 
 // Game
 app.get("/game", gameController.get)
 app.post("/game", gameController.post)
 
 // End games
-app.get("/endgame", endGameController.get)
+app.post("/endgame", endGameController.post) // Documentar API
+
+// Scores
+app.get("/points", pointsController.get)
+app.get("/scores", scoresController.get)
+
+// REST API
+app.get("/rooms", apiController.getRooms) // Documentar API
+app.get("/users", apiController.getUsers) // Documentar API
+app.get("/ranking", apiController.getScores) // Documentar API
+
+/*
+    Los GETS van sin body. 
+    Los POST van con body!!! IMPORTANTE!
+*/
 
 // Socket io server
 server.listen(3002, () => {

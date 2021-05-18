@@ -13,6 +13,9 @@ document.getElementById("playerNmbr").style.display = "none"
 
 let roomFrom
 let roomFor
+let player1
+let player2
+let champion
 
 // Display Winner Div alert
 document.getElementById("winnerDiv").style.display = "none"
@@ -51,6 +54,7 @@ async function drop(ev) {
                 playerNmbr = data.player
 
                 if (playerNmbr === 1) {
+                    player1 = username
                     let playerMessage = `You are the player: ${playerNmbr}, start the game!`
                     document.getElementById("playerNmbr").style.display =
                         "inherit"
@@ -58,6 +62,7 @@ async function drop(ev) {
                         "playerNmbr"
                     ).innerHTML = playerMessage
                 } else {
+                    player2 = username
                     let playerMessage = `You are the player: ${playerNmbr}, wait the player 1 movement!`
                     document.getElementById("playerNmbr").style.display =
                         "inherit"
@@ -121,21 +126,6 @@ socket.on("game", (data) => {
 
         document.querySelectorAll(".gameButton")[position].disabled = true
         pitch[position] = player
-        if (winner()) {
-            console.log(`Player: ${player} wins!`)
-            const winners = fetch("/endgame").then(function (res) {
-                if (res.status === 200) {
-                    document.getElementById("winnerDiv").style.display =
-                        "inherit"
-                    document
-                        .querySelectorAll(".gameButton")
-                        .forEach((button) => (button.disabled = true))
-                    document.getElementById(
-                        "winner"
-                    ).innerHTML = `Player: ${player} wins!`
-                }
-            })
-        }
     }
     if (player === 1) {
         document.getElementById("playerNmbr").style.display = "none"
@@ -153,21 +143,39 @@ socket.on("game", (data) => {
         ctx.strokeText("X", 40, 75)
         document.querySelectorAll(".gameButton")[position].disabled = true
         pitch[position] = player
-        if (winner()) {
-            console.log(`Player: ${player} wins!`)
-            const winners = fetch("/endgame").then(function (res) {
-                if (res.status === 200) {
-                    document.getElementById("winnerDiv").style.display =
-                        "inherit"
-                    document
-                        .querySelectorAll(".gameButton")
-                        .forEach((button) => (button.disabled = true))
-                    document.getElementById(
-                        "winner"
-                    ).innerHTML = `Player: ${player} wins!`
-                }
-            })
+    }
+    if (winner()) {
+        champion = pitch[position]
+        if (champion === 1) {
+            champion = player1
+        } else {
+            champion = player2
         }
+        fetch("/endgame", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "same-origin",
+            body: JSON.stringify({
+                champion: champion,
+                wins: 1,
+                roomFor: roomFor,
+            }),
+        }).then(function (res) {
+            if (res.status === 200) {
+                document.getElementById("winnerDiv").style.display = "inherit"
+                document
+                    .querySelectorAll(".gameButton")
+                    .forEach((button) => (button.disabled = true))
+                document.getElementById(
+                    "winner"
+                ).innerHTML = `Player: ${player} wins!`
+                setTimeout(function () {
+                    window.location.replace("/points")
+                }, 1750)
+            }
+        })
     }
 })
 
@@ -177,18 +185,25 @@ function winner() {
     if (pitch[0] == pitch[1] && pitch[1] == pitch[2] && pitch[0]) {
         return true
     } else if (pitch[3] === pitch[4] && pitch[3] === pitch[5] && pitch[3]) {
+        champion = pitch[3]
         return true
     } else if (pitch[6] === pitch[7] && pitch[6] === pitch[8] && pitch[6]) {
+        champion = pitch[6]
         return true
     } else if (pitch[0] === pitch[3] && pitch[0] === pitch[6] && pitch[0]) {
+        champion = pitch[0]
         return true
     } else if (pitch[1] === pitch[4] && pitch[1] === pitch[7] && pitch[1]) {
+        champion = pitch[1]
         return true
     } else if (pitch[2] === pitch[5] && pitch[2] === pitch[8] && pitch[2]) {
+        champion = pitch[2]
         return true
     } else if (pitch[0] === pitch[4] && pitch[0] === pitch[8] && pitch[0]) {
+        champion = pitch[0]
         return true
     } else if (pitch[2] === pitch[4] && pitch[2] === pitch[6] && pitch[2]) {
+        champion = pitch[2]
         return true
     }
 

@@ -9,24 +9,19 @@ module.exports = {
         const user = new User()
         ;(reqUsername = req.body.user), (reqPassword = req.body.password)
 
-        if (reqPassword && reqUsername) {
-            User.create(
-                { userName: reqUsername, password: reqPassword },
-                function (err, user) {
-                    if (err) {
-                        console.log(err)
-                        return res.status(500).end()
-                    }
-                    if (user) {
-                        res.status(202)
-                        res.sendFile(
-                            path.join(__dirname, "../views", "login.html")
-                        )
-                    }
+        User.create(
+            { userName: reqUsername, password: reqPassword },
+            function (err, user) {
+                if (err) {
+                    console.log(err)
+                    return res.status(500).end()
                 }
-            )
-        } else {
-            return res.status(500).end()
-        }
+                if (user) {
+                    res.status(202)
+                    res.sendFile(path.join(__dirname, "../views", "login.html"))
+                    res.json("User registered correctly!")
+                }
+            }
+        )
     },
 }
