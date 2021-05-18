@@ -69,18 +69,5 @@ module.exports = {
                 }
             })
         }
-        /*
-         Room.findOneAndUpdate(
-            { room: roomFor },
-            { users: 0 },
-            function (err, room) {
-                if (err) {
-                    console.log(err)
-                } else {
-                    console.log(room.room + " room restarted!")
-                }
-            }
-        )
-         */
     },
 }
