@@ -39,28 +39,31 @@ Once there are 2 players in a room the game starts and it works by clicking on t
 If there is a winner the rankings page will load with the usernames and number of wins in descending order:
 
 
-![win]https://github.com/farellanoc/P9-JAVASCRIPTERS/blob/main/images/6.win.png)
+![win](https://github.com/farellanoc/P9-JAVASCRIPTERS/blob/main/images/6.win.png)
 
 
 To play again, just press the GAME and repeat the process.
-## DATABASE :floppy_disk:
-***
-- [DUMP SQL](https://drive.google.com/file/d/1_m2OTrDqBTJsPT7TknIsdDTbWMqMGWRL/view?usp=sharing)
+
+
 #### TOOLS :hammer_and_wrench:
 ***
 - [Visual Studio Code](https://www.eclipse.org) - Microsoft's open source IDE.
-- [JavaScript](https://spring.io/projects/spring-boot) - Spring Framework is an application framework and inversion of control container for the Java platform
-- [NodeJS](https://docs.microsoft.com/es-es/sql/connect/jdbc/download-microsoft-jdbc-driver-for-sql-server?view=sql-server-ver15) - API that allows the execution of operations on databases from the Java programming language
-- [Mongoose](https://docs.spring.io/spring-data/jpa/docs/1.5.0.RELEASE/reference/html/jpa.repositories.html) - 
-- [Bootstrap](https://getbootstrap.com/) - Cross-platform library or open source toolkit for website design and web applications
+- [NodeJS](https://nodejs.org/en/) - Is a JavaScript runtime built on Chrome's V8 JavaScript engine.
+- [Express](https://expressjs.com/) - Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications.
+- [Mongoose](https://mongoosejs.com/) - Mongoose provides a straight-forward, schema-based solution to model your application data. It includes built-in type casting, validation, query building, business logic hooks and more, out of the box.
+- [Bootstrap](https://getbootstrap.com/) - Cross-platform library or open source toolkit for website design and web applications.
+- [Postman](https://www.postman.com/) - Postman is a collaboration platform for API development. Postman's features simplify each step of building an API and streamline collaboration so you can create better APIs—faster.
 
 #### RUNNING THE PROTOTYPE :computer:
 ***
 - Git clone this repo
-- Import Dump database
-- Run Apache Server (Mysql)
-- Run Spring Boot Application
-- Open browser on http://localhost:8080/
+- Enter the app folder inside the cloned repo and open a terminal. Then type ```npm install``` to install module packages needed to run the app.
+- Once npm is installed in the same terminal type ```nodemon start``` to run the server.
+- Open browser on http://localhost:3002/
+
+#### API DOCUMENTATION :bookmark_tabs:
+
+https://documenter.getpostman.com/view/15737868/TzRU9mX6
 
 #### AUTHORS :monkey:
 ***
@@ -68,6 +71,7 @@ To play again, just press the GAME and repeat the process.
 - __Gerard Márquez Rodríguez__            🐛[Git account](https://github.com/gmarquezro) 🐛
 - __Toni Estirado Sanchez__               🐛[Git account](https://github.com/testirado) 🐛
 - __Francesc Arellano Cachopo__           🐛[Git account](https://github.com/aretek88) 🐛
-#### WITH GRATITUD :tada:
+
+#### WITH GRATITUDE :tada:
 ***
 :hammer: :wrench::hammer: :wrench: To [Paco Gómez Arnal](https://www.youtube.com/c/PacoGomez), UOC consultant, and our guide in this project :hammer: 
