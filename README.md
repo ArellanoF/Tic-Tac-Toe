@@ -1,13 +1,13 @@
 # JAVASCRIPTERS
-Project (ICC02_P9) **Desarrollo fullstack de soluciones web con JavaScript y servicios web**
+Project (ICC02_P9) **Desarrollo fullstack de soluciones web con JavaScript y servicios web.**
 
 ## INTRODUCTION :rocket:
 ***
-"__Tic Tac Toe__" Game, developed with JavaScript, using REST api and Mongoose
+"__Tic Tac Toe__" Game, developed with JavaScript, using REST api and Mongoose.
 
 ## USER GUIDE :clipboard:
 ***
-To use the application first you've got to start the app running nodemon and enter the following address to the web browser *localhost:3002*
+To use the application first you've got to start the app running nodemon and enter the following address to the web browser *localhost:3002*:
 
 
 ![main](https://github.com/farellanoc/P9-JAVASCRIPTERS/blob/main/images/1.reglog.png)
