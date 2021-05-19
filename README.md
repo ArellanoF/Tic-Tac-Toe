@@ -7,31 +7,42 @@ Project (ICC02_P9) **Desarrollo fullstack de soluciones web con JavaScript y ser
 
 ## USER GUIDE :clipboard:
 ***
-To use the application first you've got to start the app running node
+To use the application first you've got to start the app running nodemon and enter the following address to the web browser *localhost:3002*
+
+
+![main](https://github.com/farellanoc/P9-JAVASCRIPTERS/blob/main/images/1.reglog.png)
 
 Once we have entered the application, it will ask to register or to login, selecting a room and an a player avatar.
 
 
-When you click on the play button, the application shows the game window, where we can see the alphabet soup and on the right a column with the words to find
+![login](https://github.com/farellanoc/P9-JAVASCRIPTERS/blob/main/images/2.login.png)
 
 
-When we find a word, we position ourselves with the mouse on the first letter of the word and by pressing the right mouse button we will drag until all the letters that compose it are selected, while the selection is made, the letters are shown in orange
+Once you log in, it will appear the main page with your username, your avatar and the available rooms. To enter a room the user needs to drag its avatar to the room of choice.
 
-![Orange](https://github.com/hectoresquerdo/BACK-EE-NDS/blob/master/images/orange.png)
+![login](https://github.com/farellanoc/P9-JAVASCRIPTERS/blob/main/images/3.mainpage.png)
 
-At the end of the selection, if done correctly, the word will turn blue and will be crossed out from the right column
 
-![Blue](https://github.com/hectoresquerdo/BACK-EE-NDS/blob/master/images/blue.png)
+![drag](https://github.com/farellanoc/P9-JAVASCRIPTERS/blob/main/images/4.draganddrop.png)
 
-If you find all of them, the board appears with a green background and the words found highlighted in white
+The second player must enter the room and an alert will be displayed to wait for 2nd player's turn:
 
-![Green](https://github.com/hectoresquerdo/BACK-EE-NDS/blob/master/images/green.png)
 
-Once all the words have been found, we press the solve button, a table with the scores will appear
+![2nd](https://github.com/farellanoc/P9-JAVASCRIPTERS/blob/main/images/5.2ndplayer.png)
 
-![Finish](https://github.com/hectoresquerdo/BACK-EE-NDS/blob/master/images/finish.png)
+Once there are 2 players in a room the game starts and it works by clicking on the desired tile of the game board like shown below:
 
-To play again, just press the NEW GAME button again.
+
+![gif](https://github.com/farellanoc/P9-JAVASCRIPTERS/blob/main/images/gif.gif)
+
+
+If there is a winner the rankings page will load with the usernames and number of wins in descending order:
+
+
+![win]https://github.com/farellanoc/P9-JAVASCRIPTERS/blob/main/images/6.win.png)
+
+
+To play again, just press the GAME and repeat the process.
 ## DATABASE :floppy_disk:
 ***
 - [DUMP SQL](https://drive.google.com/file/d/1_m2OTrDqBTJsPT7TknIsdDTbWMqMGWRL/view?usp=sharing)
