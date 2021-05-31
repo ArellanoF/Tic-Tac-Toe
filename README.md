@@ -44,6 +44,10 @@ If there is a winner the rankings page will load with the usernames and number o
 
 To play again, just press the GAME and repeat the process.
 
+#### VIDEO DEMONSTRATION
+
+- [VIDEO LINK](https://youtu.be/4xtkU5GCD6Y)
+
 
 #### TOOLS :hammer_and_wrench:
 ***
